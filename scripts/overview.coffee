@@ -13,6 +13,7 @@ class OverviewTab extends ReportTab
 
     # create random data for visualization
     size = @recordSet('SizeAndConnectivity', 'Size').toArray()[0]
+
     connectivity = @recordSet('SizeAndConnectivity', 'Connectivity').toArray()
     isCollection = @model.isCollection()
 
