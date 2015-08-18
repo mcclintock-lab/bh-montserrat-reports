@@ -1,0 +1,36 @@
+
+
+ <div class="reportSection">
+    <h4>Size</h4>
+    <p>
+      The {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}} is <strong>{{SIZE}} sq. km</strong>
+      
+    </p>
+ </div>
+
+{{#isCollection}}
+  <div class="reportSection tableContainer">
+      <h4>Connectivity</h4>
+      <table>
+        <thead>
+          <tr>
+            <td>Zone Name</td>
+            <td>Distance to Nearest Zone</td>
+            <td>Nearest Zone Name</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#connectivity}}
+            <tr>
+              <td>{{NAME}}</td>
+              <td>{{DIST_KM}}</td>
+              <td>{{NEAR_NAME}}</td>
+            </tr>
+          {{/connectivity}}
+      </table>
+   </div>
+ {{/isCollection}}
+
+
+
+
