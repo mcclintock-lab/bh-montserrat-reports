@@ -51,7 +51,7 @@ class OverviewTab extends ReportTab
       displaced_dive_value: displaced_dive_value
     
     @$el.html @template.render(context, templates)
-
+    @enableLayerTogglers()
 
 
 
