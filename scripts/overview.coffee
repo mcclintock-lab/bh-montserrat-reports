@@ -8,6 +8,7 @@ class OverviewTab extends ReportTab
   template: templates.overview
   dependencies:[ 
     'SizeAndConnectivity'
+    'DiveAndFishingValue'
   ]
   render: () ->
 
@@ -16,6 +17,25 @@ class OverviewTab extends ReportTab
 
     connectivity = @recordSet('SizeAndConnectivity', 'Connectivity').toArray()
     isCollection = @model.isCollection()
+
+    dfv = @recordSet('DiveAndFishingValue', 'FishingValue').toArray()[0]
+    ddv = @recordSet('DiveAndFishingValue', 'DiveValue').toArray()[0]
+    
+    if dfv
+      if dfv.PERCENT < 0.01
+        displaced_fishing_value = "< 0.01"
+      else
+        displaced_fishing_value = parseFloat(dfv.PERCENT).toFixed(2)
+    else
+      displaced_fishing_value = "unknown"
+
+    if ddv
+      if ddv.PERCENT < 0.01
+        displaced_dive_value = "< 0.01"
+      else
+        displaced_dive_value = parseFloat(ddv.PERCENT).toFixed(2)
+    else
+      displaced_dive_value = "unknown"
 
     # setup context object with data and render the template from it
     context =
@@ -26,6 +46,9 @@ class OverviewTab extends ReportTab
       isCollection: isCollection
       size: size
       connectivity: connectivity
+      
+      displaced_fishing_value: displaced_fishing_value
+      displaced_dive_value: displaced_dive_value
     
     @$el.html @template.render(context, templates)
 
