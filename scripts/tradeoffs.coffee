@@ -16,8 +16,19 @@ class TradeoffsTab extends ReportTab
 
   render: () ->
     tradeoff_data = @recordSet('MontserratTradeoffAnalysis', 'Scores').toArray()
+    @roundData tradeoff_data
+
     tradeoffs = ['Fishing and Diving']
-    console.log("data: ", tradeoff_data)
+    
+    fishing_vals = (item.Fishing for item in tradeoff_data)
+    diving_vals = (item.Diving for item in tradeoff_data)
+
+    fishing_min = Math.min fishing_vals
+    fishing_max = Math.max fishing_vals
+
+    diving_min = Math.min diving_vals
+    diving_max = Math.max diving_vals
+
     context =
       sketch: @model.forTemplate()
       sketchClass: @sketchClass.forTemplate()
@@ -31,9 +42,10 @@ class TradeoffsTab extends ReportTab
       _.defer @renderTradeoffs
 
     if window.d3
-      @setupScatterPlot(tradeoff_data, '.fishing-v-diving', "Value of Fishing", "Value of Diving", "Fishing", "Diving")
+      @setupScatterPlot(tradeoff_data, '.fishing-v-diving', "Value of Fishing", 
+        "Value of Diving", "Fishing", "Diving", fishing_min, fishing_max, diving_min, diving_max)
 
-  setupScatterPlot: (tradeoff_data, chart_name, xlab, ylab, mouseXProp, mouseYProp) =>
+  setupScatterPlot: (tradeoff_data, chart_name, xlab, ylab, mouseXProp, mouseYProp, fishingMin, fishingMax, divingMin, divingMax) =>
       h = 380
       w = 380
       margin = {left:40, top:5, right:40, bottom: 40, inner:5}
@@ -43,7 +55,7 @@ class TradeoffsTab extends ReportTab
       totalw = halfw*2
 
       #make sure its @scatterplot to pass in the right context (tab) for d3
-      thechart = @scatterplot(chart_name, mouseXProp, mouseYProp).xvar(0)
+      thechart = @scatterplot(chart_name, mouseXProp, mouseYProp, fishingMin, fishingMax, divingMin, divingMax).xvar(0)
                              .yvar(1)
                              .xlab(xlab)
                              .ylab(ylab)
@@ -109,19 +121,19 @@ class TradeoffsTab extends ReportTab
     return xloc+10
 
 
-  scatterplot: (chart_name, xval, yval) =>
+  scatterplot: (chart_name, xval, yval, fishingMin, fishingMax, divingMin, divingMax) =>
     view = @
     width = 380
     height = 600
     margin = {left:40, top:5, right:40, bottom: 40, inner:5}
-    axispos = {xtitle:25, ytitle:30, xlabel:5, ylabel:5}
+    axispos = {xtitle:25, ytitle:30, xlabel:5, ylabel:1}
     xlim = null
     ylim = null
     nxticks = 5
     xticks = null
     nyticks = 5
     yticks = null
-    #rectcolor = d3.rgb(230, 230, 230)
+    
     rectcolor = "white"
     pointsize = 5 # default = no visible points at markers
     xlab = "X"
@@ -150,9 +162,8 @@ class TradeoffsTab extends ReportTab
         panelwidth = width
         panelheight = height
 
-        xlim = [d3.min(x)-2, parseFloat(d3.max(x)+2)] if !(xlim?)
-
-        ylim = [d3.min(y)-2, parseFloat(d3.max(y)+2)] if !(ylim?)
+        xlim = [d3.min(x)-0.25, parseFloat(d3.max(x)+0.25)] if !(xlim?)
+        ylim = [d3.min(y)-0.25, parseFloat(d3.max(y)+0.25)] if !(ylim?)
 
         # I'll replace missing values something smaller than what's observed
         na_value = d3.min(x.concat y) - 100
@@ -163,7 +174,6 @@ class TradeoffsTab extends ReportTab
         # Update the outer dimensions.
         svg.attr("width", width+margin.left+margin.right)
            .attr("height", height+margin.top+margin.bottom+data.length*35)
-
         g = svg.select("g")
 
         # box
@@ -184,11 +194,9 @@ class TradeoffsTab extends ReportTab
         xs = d3.scale.linear().domain(xlim).range(xrange)
         ys = d3.scale.linear().domain(ylim).range(yrange)
 
-
         # if yticks not provided, use nyticks to choose pretty ones
         yticks = ys.ticks(nyticks) if !(yticks?)
         xticks = xs.ticks(nxticks) if !(xticks?)
-
 
         # x-axis
         xaxis = g.append("g").attr("class", "x axis")
@@ -268,7 +276,7 @@ class TradeoffsTab extends ReportTab
              .attr("x", margin.left-axispos.ylabel)
              .text((d) -> formatAxis(yticks)(d))
         yaxis.append("text").attr("class", "title")
-             .attr("y", margin.top+height/2)
+             .attr("y", margin.top-8+(height/2))
              .attr("x", margin.left-axispos.ytitle)
              .text(ylab)
              .attr("transform", "rotate(270,#{margin.left-axispos.ytitle},#{margin.top+height/2})")
@@ -447,6 +455,11 @@ class TradeoffsTab extends ReportTab
 
     # return the chart function
     chart
+
+  roundData: (data) => 
+    for d in data
+      d.Fishing = parseFloat(d.Fishing).toFixed(2)
+      d.Diving = parseFloat(d.Diving).toFixed(2)
 
   getColors = (i) ->
     colors = ["LightGreen", "LightPink", "LightSkyBlue", "Moccasin", "BlueViolet", "Gainsboro", "DarkGreen", "DarkTurquoise", "maroon", "navy", "LemonChiffon", "orange",  "red", "silver", "teal", "white", "black"]
