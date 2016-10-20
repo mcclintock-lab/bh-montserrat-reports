@@ -1,0 +1,23 @@
+
+ <div class="reportSection tableContainer">
+    <h4>Habitats</h4>
+
+      <table data-paging="10">
+        <thead>
+          <tr>
+            <th style="width:225px;">Habitat</th>
+            <th>Area (sq. km.)</th>
+            <th>Area (% of Total)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#habitats}}
+          <tr>
+            <td>{{HAB_TYPE}}</td>
+            <td>{{AREA_SQKM}}</td>
+            <td>{{PERC}}</td>
+          </tr>
+          {{/habitats}}
+        </tbody>
+      </table>
+ </div>
