@@ -1,7 +1,11 @@
 
 <div class="reportSection">
   <h4>Tradeoffs</h4>
-  	<div style="margin-left:40px;">
+  	{{#isCollection}}
+  	<p style="margin-left:18px;">
+  		<em>Tradeoff analysis is currently in development, and should be used for demonstration purposes only. These analytics will allow users to plot multiple plan options against each other in terms of their impact on fishing, dive and conservation value for Montserrat.</em>
+  	</p>
+  	<div style="margin-left:18px;margin-bottom:15px">
 	  	<span>Select a Set of Tradeoff Scores to View:</span></br>
 		<select class="chosen">
 			<option class="default-chosen-selection" label="Fishing and Diving">Fishing and Diving</option>
@@ -9,5 +13,10 @@
 		</select>
 	</div>
   	<div id="pvt_container" class="pvt_container"><div  id="fishing-v-diving" class="fishing-v-diving"></div></div>
-
+  	{{/isCollection}}
+  	{{^isCollection}}
+  	  	<p>
+  			<i>No tradeoff analysis available for individual zones.</i>
+  		</p>
+  	{{/isCollection}}
 </div>

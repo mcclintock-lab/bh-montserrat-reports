@@ -28,13 +28,14 @@ class TradeoffsTab extends ReportTab
 
     diving_min = Math.min diving_vals
     diving_max = Math.max diving_vals
-
+    isCollection = @model.isCollection()   
     context =
       sketch: @model.forTemplate()
       sketchClass: @sketchClass.forTemplate()
       attributes: @model.getAttributes()
       admin: @project.isAdmin window.user
       tradeoffs: tradeoffs
+      isCollection: isCollection
       
     @$el.html @template.render(context, partials)
     @$('.chosen').chosen({disable_search_threshold: 10, width:'380px'})
