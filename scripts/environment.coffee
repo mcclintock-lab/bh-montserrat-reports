@@ -63,7 +63,7 @@ class EnvironmentTab extends ReportTab
 
     @renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
     @renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
-    @renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Fish Abundance", "Number of Fish Species")
+    @renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
     
 
   renderHistoValues: (biomass, histo_vals, graph, color, x_axis_label, legend_label) =>
@@ -267,7 +267,7 @@ class EnvironmentTab extends ReportTab
       if graph == ".herb_viz"
         @$(graph).append '<div class="legends"><div class="legend"><span class="herb-swatch">&nbsp;</span>Biomass in Region</div><div class="legend-sketch-values">▼ Sketch Values</div></div>'
       if graph == ".fish_viz"
-        @$(graph).append '<div class="legends"><div class="legend"><span class="fish-swatch">&nbsp;</span>Fish Abundance</div><div class="legend-sketch-values">▼ Sketch Values</div></div>'
+        @$(graph).append '<div class="legends"><div class="legend"><span class="fish-swatch">&nbsp;</span>Fish Count in Region</div><div class="legend-sketch-values">▼ Sketch Values</div></div>'
       if graph == ".total_viz"
         @$(graph).append '<div class="legends"><div class="legend"><span class="total-swatch">&nbsp;</span>Biomass in Region</div><div class="legend-sketch-values">▼ Sketch Values</div></div>'
        
