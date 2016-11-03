@@ -366,6 +366,131 @@
   float: right;
   margin-right: 10px;
 }
+.herb_viz,
+.fish_viz,
+.total_viz {
+  position: relative;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.herb_viz p,
+.fish_viz p,
+.total_viz p {
+  padding-top: 35px !important;
+  width: 100%;
+  text-align: center;
+}
+.herb_viz div.score,
+.fish_viz div.score,
+.total_viz div.score {
+  position: absolute;
+}
+.herb_viz div.score:before,
+.fish_viz div.score:before,
+.total_viz div.score:before {
+  content: '▼';
+  left: -10px;
+  top: -17px;
+  font-size: 18px;
+  position: relative;
+}
+.herb_viz svg,
+.fish_viz svg,
+.total_viz svg {
+  font: 10px sans-serif;
+}
+.herb_viz .axis path,
+.fish_viz .axis path,
+.total_viz .axis path,
+.herb_viz .axis line,
+.fish_viz .axis line,
+.total_viz .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.herb_viz .bar,
+.fish_viz .bar,
+.total_viz .bar {
+  fill: steelblue;
+}
+.herb_viz .minScore,
+.fish_viz .minScore,
+.total_viz .minScore {
+  font-size: 12px;
+}
+.herb_viz .maxScore,
+.fish_viz .maxScore,
+.total_viz .maxScore {
+  font-size: 12px;
+}
+.herb_viz .score,
+.fish_viz .score,
+.total_viz .score {
+  font-size: 12px;
+}
+.herb_viz .legends,
+.fish_viz .legends,
+.total_viz .legends {
+  margin-top: 5px;
+  margin-left: 40px;
+}
+.herb_viz .legend,
+.fish_viz .legend,
+.total_viz .legend {
+  margin-right: 10px;
+  float: left;
+  font-size: 10px;
+}
+.herb_viz .legend span,
+.fish_viz .legend span,
+.total_viz .legend span {
+  margin-top: 0px;
+  margin-right: 3px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  vertical-align: middle;
+}
+.herb_viz .fish-swatch,
+.fish_viz .fish-swatch,
+.total_viz .fish-swatch {
+  background-color: #6897bb;
+}
+.herb_viz .herb-swatch,
+.fish_viz .herb-swatch,
+.total_viz .herb-swatch {
+  background-color: #66cdaa;
+}
+.herb_viz .total-swatch,
+.fish_viz .total-swatch,
+.total_viz .total-swatch {
+  background-color: #fa8072;
+}
+.herb_viz div.legend-sketch-values,
+.fish_viz div.legend-sketch-values,
+.total_viz div.legend-sketch-values {
+  margin-right: 10px;
+  font-size: 10px;
+}
+.herb_viz .scoreLine,
+.fish_viz .scoreLine,
+.total_viz .scoreLine {
+  stroke: #000;
+  stroke-width: 1;
+}
+.herb_viz .minScoreLine,
+.fish_viz .minScoreLine,
+.total_viz .minScoreLine {
+  stroke: #a9a9a9;
+  stroke-width: 0.5;
+}
+.herb_viz .maxScoreLine,
+.fish_viz .maxScoreLine,
+.total_viz .maxScoreLine {
+  stroke: #a9a9a9;
+  stroke-width: 0.5;
+}
 .tradeoffs .viz {
   position: relative;
   margin-left: 20px;

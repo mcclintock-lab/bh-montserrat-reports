@@ -1,4 +1,6 @@
 
+
+
  <div class="reportSection tableContainer">
     <h4>Benthic Habitats <a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
       <p>
@@ -23,3 +25,80 @@
         </tbody>
       </table>
  </div>
+
+
+ <div class="reportSection">
+    <h4>Biomass</h4>
+    <p>
+      These charts show the minimum, mean and maximum biomass value taken within your sketched zone, in relation to the distribution of biomass measured around the island. Biomass was calculated for Herbivores and All Species at regular points along Montserrat's coast
+    <p>
+    {{#d3IsPresent}}
+      <div class="in-report-header">Herbivore Biomass</div>
+      <div id="herb_viz" class="herb_viz"></div>
+      <div class="in-report-header">All Species Biomass</div>
+      <div id="total_viz" class="total_viz"></div>
+    {{/d3IsPresent}}
+    {{^d3IsPresent}}
+      <table data-paging="10">
+        <thead>
+          <tr>
+            <th style="width:250px;"></th>
+            <th>Mean</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#herb}}
+            <tr>
+              <td>Herbivores</td>
+              <td>{{herb.SCORE}}</td>
+              <td>{{herb.MIN}}</td>
+              <td>{{herb.MAX}}</td>
+            </tr>
+          {{/herb}}
+          {{#total}}
+            <tr>
+              <td>Totals</td>
+              <td>{{total.SCORE}}</td>
+              <td>{{total.MIN}}</td>
+              <td>{{total.MAX}}</td>
+            </tr>
+          {{/total}}
+        </tbody>
+      </table>
+    {{/d3IsPresent}}
+ </div>
+
+ <div class="reportSection">
+    <h4>Fish Abundance</h4>
+    <p>
+      These charts show the minimum, mean and maximum fish abundance value taken within your sketched zone.
+    <p>
+    {{#d3IsPresent}}
+      <div id="fish_viz" class="fish_viz"></div>
+    {{/d3IsPresent}}
+    {{^d3IsPresent}}
+      <table data-paging="10">
+        <thead>
+          <tr>
+            <th style="width:250px;"></th>
+            <th>Mean</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#fish}}
+            <tr>
+              <td>Herbivores</td>
+              <td>{{fish.SCORE}}</td>
+              <td>{{fish.MIN}}</td>
+              <td>{{fish.MAX}}</td>
+            </tr>
+          {{/fish}}
+
+        </tbody>
+      </table>
+    {{/d3IsPresent}}
+  </div>

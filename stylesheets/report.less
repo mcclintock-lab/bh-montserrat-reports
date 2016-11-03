@@ -5,6 +5,105 @@
   float:right;
   margin-right:10px;
 }
+.herb_viz, .fish_viz, .total_viz {
+  position:relative;
+  margin-left: 20px;
+  margin-top: 20px;
+  p {
+    padding-top:35px !important;
+    width:100%;
+    text-align:center;
+  }
+
+  div.score {
+    position:absolute;
+    &:before {
+      content:'▼';
+      left:-10px;
+      top:-17px;
+      font-size:18px;
+      position:relative;
+    }
+  }
+
+  svg {
+    font: 10px sans-serif;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .bar {
+    fill: steelblue;
+  }
+
+
+  .minScore {
+    font-size:12px;
+  }
+
+  .maxScore {
+    font-size: 12px;
+  }
+
+  .score {
+    font-size:12px;
+  }
+
+  .legends {
+    margin-top:5px;
+    margin-left:40px;
+  }
+
+  .legend{
+    margin-right:10px;
+    float:left;
+    font-size:10px;
+    span{
+      margin-top:0px;
+      margin-right:3px;
+      display:inline-block;
+      width:10px;
+      height:10px;
+      vertical-align:middle;
+    }
+  }
+
+  .fish-swatch {
+      background-color: #6897bb;
+  }
+
+  .herb-swatch {
+      background-color: #66cdaa;
+  }
+
+  .total-swatch {
+      background-color: #fa8072;
+  }
+
+  div.legend-sketch-values{
+    margin-right:10px;
+    font-size:10px;
+  }
+  .scoreLine{
+    stroke:#000;
+    stroke-width:1;
+  }
+
+  .minScoreLine{
+    stroke:#a9a9a9;
+    stroke-width:0.5;
+  }
+
+  .maxScoreLine{
+    stroke:#a9a9a9;
+    stroke-width:0.5;
+  }
+}
+
 
 .tradeoffs .viz {
   position:relative;
