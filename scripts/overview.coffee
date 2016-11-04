@@ -41,7 +41,7 @@ class OverviewTab extends ReportTab
 
     minDistKM = @recordSet('Distance', 'Distance').toArray()[0]
     if minDistKM
-      minDistKM = parseFloat(minDistKM.MinDist).toFixed(2)
+      minDistKM = parseFloat(minDistKM.MaxDist).toFixed(2)
     else
       minDistKM = "Unknown"
     # setup context object with data and render the template from it
