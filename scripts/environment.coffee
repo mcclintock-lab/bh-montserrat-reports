@@ -85,7 +85,6 @@ class EnvironmentTab extends ReportTab
       max_count_val = 0
       num_in_bins = Math.ceil(len/num_bins)
       incr = max_histo_val/num_bins
-      
 
       for i in [0...num_bins]
         

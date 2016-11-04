@@ -9,6 +9,7 @@ class OverviewTab extends ReportTab
   dependencies:[ 
     'SizeAndConnectivity'
     'DiveAndFishingValue'
+    'Distance'
   ]
   render: () ->
 
@@ -21,6 +22,7 @@ class OverviewTab extends ReportTab
     dfv = @recordSet('DiveAndFishingValue', 'FishingValue').toArray()[0]
     ddv = @recordSet('DiveAndFishingValue', 'DiveValue').toArray()[0]
     
+
     if dfv
       if dfv.PERCENT < 0.01
         displaced_fishing_value = "< 0.01"
@@ -37,6 +39,11 @@ class OverviewTab extends ReportTab
     else
       displaced_dive_value = "unknown"
 
+    minDistKM = @recordSet('Distance', 'Distance').toArray()[0]
+    if minDistKM
+      minDistKM = parseFloat(minDistKM.MinDist).toFixed(2)
+    else
+      minDistKM = "Unknown"
     # setup context object with data and render the template from it
     context =
       sketch: @model.forTemplate()
@@ -50,6 +57,7 @@ class OverviewTab extends ReportTab
       displaced_fishing_value: displaced_fishing_value
       displaced_dive_value: displaced_dive_value
     
+      minDistKM: minDistKM
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
 
