@@ -258,7 +258,7 @@ class EnvironmentTab extends ReportTab
           .data([Math.round(bmax)])
         .enter().append("text")
         .attr("class", "maxScoreText")
-        .attr("x", (d) -> (x(d) - 21 )+ 'px')
+        .attr("x", (d) -> (x(d) - 30 )+ 'px')
         .attr("y", (d) -> (y(max_count_val) - 30) + 'px')
         .text((d) -> "Max: "+d)
 
