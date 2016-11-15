@@ -597,6 +597,18 @@
 .fishing-v-diving {
   margin: 1px 1px 1px 1px;
 }
+.fishing-v-conservation {
+  margin: 1px 1px 1px 1px;
+}
+.diving-v-conservation {
+  margin: 1px 1px 1px 1px;
+}
+.fvc_container {
+  display: none;
+}
+.dvc_container {
+  display: none;
+}
 .fvd_container {
   display: block;
 }

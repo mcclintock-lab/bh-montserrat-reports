@@ -18,16 +18,21 @@ class TradeoffsTab extends ReportTab
     tradeoff_data = @recordSet('MontserratTradeoffAnalysis', 'Scores').toArray()
     @roundData tradeoff_data
 
-    tradeoffs = ['Fishing and Diving']
+    tradeoffs = ['Fishing and Diving', 'Fishing and Conservation', 'Diving and Conservation']
     
     fishing_vals = (item.Fishing for item in tradeoff_data)
     diving_vals = (item.Diving for item in tradeoff_data)
+    conservation_vals = (item.Conservation for item in tradeoff_data)
 
     fishing_min = Math.min fishing_vals
     fishing_max = Math.max fishing_vals
 
     diving_min = Math.min diving_vals
     diving_max = Math.max diving_vals
+
+    conservation_min = Math.min conservation_vals
+    conservation_max = Math.max conservation_vals
+
     isCollection = @model.isCollection()   
     context =
       sketch: @model.forTemplate()
@@ -45,6 +50,12 @@ class TradeoffsTab extends ReportTab
     if window.d3
       @setupScatterPlot(tradeoff_data, '.fishing-v-diving', "Value of Fishing", 
         "Value of Diving", "Fishing", "Diving", fishing_min, fishing_max, diving_min, diving_max)
+
+      @setupScatterPlot(tradeoff_data, '.fishing-v-conservation', "Value of Fishing", 
+        "Value of Conservation", "Fishing", "Conservation", fishing_min, fishing_max, conservation_min, conservation_max)
+
+      @setupScatterPlot(tradeoff_data, '.diving-v-conservation', "Value of Diving", 
+        "Value of Conservation", "Diving", "Conservation", diving_min, diving_max, conservation_min, conservation_max)
 
   setupScatterPlot: (tradeoff_data, chart_name, xlab, ylab, mouseXProp, mouseYProp, fishingMin, fishingMax, divingMin, divingMax) =>
       h = 380
@@ -112,6 +123,16 @@ class TradeoffsTab extends ReportTab
     name = @$('.chosen').val()
     if name == "Fishing and Diving"
       @$('.fvd_container').show()
+      @$('.fvc_container').hide()
+      @$('.dvc_container').hide()
+    else if name == "Fishing and Conservation"
+      @$('.fvd_container').hide()
+      @$('.fvc_container').show()
+      @$('.dvc_container').hide()
+    else if name == "Diving and Conservation"
+      @$('.fvd_container').hide()
+      @$('.fvc_container').hide()
+      @$('.dvc_container').show()
 
 
   calc_ttip = (xloc, data, tooltip) ->

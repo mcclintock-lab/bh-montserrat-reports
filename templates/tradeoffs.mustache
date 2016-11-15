@@ -8,11 +8,14 @@
   	<div style="margin-left:18px;margin-bottom:15px">
 	  	<span>Select a Set of Tradeoff Scores to View:</span></br>
 		<select class="chosen">
-			<option class="default-chosen-selection" label="Fishing and Diving">Fishing and Diving</option>
-
+      {{#tradeoffs}}
+        <option class="{{. == "Fishing and Diving" ? 'default-chosen-selection' : ''}}"  value="{{.}}">{{.}}</option>
+      {{/tradeoffs}}
 		</select>
 	</div>
-  	<div id="pvt_container" class="pvt_container"><div  id="fishing-v-diving" class="fishing-v-diving"></div></div>
+  	<div id="fvd_container" class="fvd_container"><div  id="fishing-v-diving" class="fishing-v-diving"></div></div>
+    <div id="fvc_container" class="fvc_container"><div  id="fishing-v-conservation" class="fishing-v-conservation"></div></div>
+    <div id="dvc_container" class="dvc_container"><div  id="diving-v-conservation" class="diving-v-conservation"></div></div>
   	{{/isCollection}}
   	{{^isCollection}}
   	  	<p>
