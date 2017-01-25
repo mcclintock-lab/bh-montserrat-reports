@@ -125,6 +125,8 @@ class EnvironmentTab extends ReportTab
         left: 45
 
       width = 400 - margin.left - margin.right
+      #note: using this to translate the x axis was causing a problem,
+      #so i just hardcoded it for now...
       height = 350 - margin.top - margin.bottom
       
       x = d3.scale.linear()
@@ -152,7 +154,7 @@ class EnvironmentTab extends ReportTab
 
       svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0,#{height})")
+        .attr("transform", "translate(0,270)")
         .call(xAxis)
       .append("text")
         .attr("x", width / 2)
