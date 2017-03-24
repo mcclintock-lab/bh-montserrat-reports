@@ -9,20 +9,37 @@
       <table data-paging="10">
         <thead>
           <tr>
+            <th style="width:40px;">Meets 30% Goal?<sup>*</sup></th>
             <th style="width:225px;">Habitat</th>
             <th>Area (sq. km.)</th>
             <th>Area (% of Total)</th>
+
           </tr>
         </thead>
         <tbody>
           {{#habitats}}
           <tr>
+            <td>
+              {{#MEETS_GOAL}}
+                <div class="small-green-check"></div>
+              {{/MEETS_GOAL}}
+              {{^MEETS_GOAL}}
+                <div class="small-red-x"></div>
+              {{/MEETS_GOAL}}
+            </td>
             <td>{{HAB_TYPE}}</td>
             <td>{{AREA_SQKM}}</td>
             <td>{{PERC}}</td>
           </tr>
           {{/habitats}}
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" style="text-align:center;">
+              The {{#isCollection}}collection of zones{{/isCollection}}{{^isCollection}}zone{{/isCollection}} meets the goal of conserving 30% of the habitat.
+            </td>
+          </tr>
+        </tfoot>
       </table>
  </div>
 

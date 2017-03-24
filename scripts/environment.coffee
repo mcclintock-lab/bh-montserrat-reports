@@ -23,6 +23,9 @@ class EnvironmentTab extends ReportTab
     habitats = @recordSet('MontserratHabitatToolbox', 'Habitats').toArray()
     habitats = _.sortBy habitats, (h) ->  parseFloat(h.PERC)
     habitats = habitats.reverse()
+    console.log("habs: ", habitats)
+    @addTarget habitats
+
 
     herb_bio = @recordSet('MontserratBiomassToolbox', 'HerbivoreBiomass').toArray()[0]
     all_herb_vals = @getAllValues herb_bio.HISTO
@@ -283,11 +286,14 @@ class EnvironmentTab extends ReportTab
     catch e
       return []
     
+  addTarget: (data) =>
+    for d in data
+      d.MEETS_GOAL = (parseFloat(d.PERC) > 30.0)
 
   roundVals: (d) =>    
-    d.MEAN = parseFloat(d.MEAN).toFixed(1)
-    d.MAX = parseFloat(d.MAX).toFixed(1)
-    d.MIN = parseFloat(d.MIN).toFixed(1)
+      d.MEAN = parseFloat(d.MEAN).toFixed(1)
+      d.MAX = parseFloat(d.MAX).toFixed(1)
+      d.MIN = parseFloat(d.MIN).toFixed(1)
 
   roundData: (data) =>
     for d in data
