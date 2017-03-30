@@ -567,6 +567,17 @@
   content: '';
   font-size: 12px;
 }
+.no-goal {
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+}
+.no-goal:before {
+  font-family: 'fontello';
+  color: darkgray;
+  content: '-';
+  font-size: 12px;
+}
 .diameter img {
   margin-left: 100px;
   margin-top: 5px;

@@ -288,7 +288,11 @@ class EnvironmentTab extends ReportTab
     
   addTarget: (data) =>
     for d in data
-      d.MEETS_GOAL = (parseFloat(d.PERC) > 30.0)
+      if d.HAB_TYPE == "Artificial Reef"
+        d.MEETS_GOAL = false
+        d.NO_GOAL = true
+      else
+        d.MEETS_GOAL = (parseFloat(d.PERC) > 30.0)
 
   roundVals: (d) =>    
       d.MEAN = parseFloat(d.MEAN).toFixed(1)

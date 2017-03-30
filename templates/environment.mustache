@@ -24,7 +24,15 @@
                 <div class="small-green-check"></div>
               {{/MEETS_GOAL}}
               {{^MEETS_GOAL}}
-                <div class="small-red-x"></div>
+                {{#NO_GOAL}}
+                  <div class="no-goal"></div>
+                {{/NO_GOAL}}
+                {{^NO_GOAL}}
+                  <div class="small-red-x"></div>
+                {{/NO_GOAL}}
+                
+                
+              
               {{/MEETS_GOAL}}
             </td>
             <td>{{HAB_TYPE}}</td>
@@ -36,7 +44,7 @@
         <tfoot>
           <tr>
             <td colspan="4" style="text-align:center;">
-              <sup>*</sup>Does the {{#isCollection}}collection of zones{{/isCollection}}{{^isCollection}}zone{{/isCollection}} meet the goal of conserving 30% of the habitat?
+              <sup>*</sup>Does the {{#isCollection}}collection of zones{{/isCollection}}{{^isCollection}}zone{{/isCollection}} meet the goal of conserving 30% of the habitat? A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
             </td>
           </tr>
         </tfoot>
