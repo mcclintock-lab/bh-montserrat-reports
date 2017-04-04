@@ -362,6 +362,106 @@
 .reportView .reportSection.tableContainer p {
   padding: 10px;
 }
+.viz {
+  position: relative;
+  *zoom: 1;
+  margin-bottom: 30px;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+.viz:before,
+.viz:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.viz:after {
+  clear: both;
+}
+.viz .max_label {
+  position: absolute;
+  top: -10px;
+  background: transparent;
+  float: none;
+  line-height: 18px;
+  padding-left: -4px;
+  text-align: left;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.viz .max_label:before {
+  font-family: 'fontello';
+  margin-right: 5px;
+  font-size: 28px;
+  position: absolute;
+  top: 5px;
+  left: -18px;
+  color: #4d4d4d;
+}
+.viz .max_marker {
+  position: absolute;
+  top: 4px;
+  background: transparent;
+  float: none;
+  line-height: 18px;
+  padding-left: 14px;
+  text-align: left;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.viz .max_marker:before {
+  font-family: 'fontello';
+  content: '|';
+  margin-right: 5px;
+  font-size: 24px;
+  position: absolute;
+  top: 6px;
+  left: -1px;
+  color: #4d4d4d;
+}
+.viz > div.range {
+  height: 15px;
+  float: left;
+  margin-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.viz > div.range.in-sketch {
+  background: #9aba8c;
+  background-color: #89af79;
+  background-image: -moz-linear-gradient(top, #7ea76c, #9aba8c);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#7ea76c), to(#9aba8c));
+  background-image: -webkit-linear-gradient(top, #7ea76c, #9aba8c);
+  background-image: -o-linear-gradient(top, #7ea76c, #9aba8c);
+  background-image: linear-gradient(to bottom, #7ea76c, #9aba8c);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7ea76c', endColorstr='#ff9aba8c', GradientType=0);
+}
+.viz > div.range.outside-sketch {
+  background: #e5cace;
+  background-color: #dbb5bb;
+  background-image: -moz-linear-gradient(top, #d4a8ae, #e5cace);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#d4a8ae), to(#e5cace));
+  background-image: -webkit-linear-gradient(top, #d4a8ae, #e5cace);
+  background-image: -o-linear-gradient(top, #d4a8ae, #e5cace);
+  background-image: linear-gradient(to bottom, #d4a8ae, #e5cace);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd4a8ae', endColorstr='#ffe5cace', GradientType=0);
+}
+.viz > div.range > span {
+  position: absolute;
+  top: 35px;
+  font-size: 12px;
+  text-align: left;
+}
+.viz > div.range > span padding-left:5px span {
+  font-size: 12px;
+  display: block;
+  color: #888;
+}
+.viz > div.range > span.label-in-sketch {
+  margin-top: 9px;
+}
+.viz > div.range > span.label-outside-sketch {
+  margin-top: 9px;
+}
 .fishingValue [data-toggle-node] {
   float: right;
   margin-right: 10px;

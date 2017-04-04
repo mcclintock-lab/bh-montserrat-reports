@@ -47,7 +47,45 @@
         </tfoot>
       </table>
  </div>
-
+ <div class="reportSection tableContainer">
+    <h4>Presence of IUCN Listed Coral Species <a href="#" data-toggle-node="" data-visible="false">show layer</a></h4>
+      <p>
+        Three IUCN listed corals have been observed within Montserrat waters. The following graphics show the number of the known observations that are found within the selected {{#isCollection}}collection of zones{{/isCollection}}{{^isCollection}}zone{{/isCollection}}.
+      </p>
+      {{#hasD3}}
+      <div>
+          <div class="viz" id="orb_a">
+            <div><i>Orbicella annularis </i></div>
+          </div>
+          <div class="viz" id="orb_f">
+            <div><i>Orbicella faveolata</i></div>
+          </div>
+          <div class="viz" id="acro">
+            <div><i>Acropora palmata</i></div>
+          </div>
+        </div>
+      {{/hasD3}}
+      {{^hasD3}}
+        <table data-paging="10">
+          <thead>
+            <tr>
+              <th style="width:40px;">Name<sup>*</sup></th>
+              <th style="width:225px;">Count</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#coral_count}}
+            <tr>
+              <td>{{NAME}}</td>
+              <td>{{COUNT}}</td>
+              <td>{{TOT}}</td>
+            </tr>
+            {{/coral_count}}
+          </tbody>
+        </table>
+      {{/hasD3}}
+ </div>
 
  <div class="reportSection">
     <h4>Biomass</h4>
