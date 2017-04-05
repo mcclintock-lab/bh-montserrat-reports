@@ -666,6 +666,24 @@
 .habitat [data-toggle-node] {
   top: 8px;
 }
+.big-red-x {
+  display: inline;
+}
+.big-red-x:before {
+  font-family: 'fontello';
+  color: red;
+  content: 'x';
+  font-size: 16px;
+}
+.big-green-check {
+  display: inline;
+}
+.big-green-check:before {
+  font-family: 'fontello';
+  color: green;
+  content: '';
+  font-size: 16px;
+}
 .small-red-x {
   position: relative;
   text-align: center;

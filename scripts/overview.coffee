@@ -10,6 +10,7 @@ class OverviewTab extends ReportTab
     'SizeAndConnectivity'
     'DiveAndFishingValue'
     'Distance'
+    'MinDimensionToolbox'
   ]
   render: () ->
 
@@ -44,6 +45,21 @@ class OverviewTab extends ReportTab
       minDistKM = parseFloat(minDistKM.MaxDist).toFixed(2)
     else
       minDistKM = "Unknown"
+
+    minWidth = @recordSet('MinDimensionToolbox', 'Dimensions').toArray()
+    console.log("minwidth: ", minWidth)
+    if minWidth?.length > 0
+
+      isConservationZone = true
+      if isCollection
+        @processMinDimension minWidth
+      else
+        meetsMinWidthGoal = (parseFloat(minWidth[0].WIDTH) > 1.0)
+    else
+      isConservationZone = false
+      meetsMinWidthGoal = false
+
+    console.log('is cons goal:', isConservationZone)
     # setup context object with data and render the template from it
     context =
       sketch: @model.forTemplate()
@@ -58,9 +74,19 @@ class OverviewTab extends ReportTab
       displaced_dive_value: displaced_dive_value
     
       minDistKM: minDistKM
+      isConservationZone: isConservationZone
+      meetsMinWidthGoal: meetsMinWidthGoal
+      min_dim :minWidth
+
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
 
+  processMinDimension: (data) =>
 
+    for d in data
+      if parseFloat(d.WIDTH) > 1.0
+        d.MEETS_THRESH = true
+      else
+        d.MEETS_THRESH = false
 
 module.exports = OverviewTab

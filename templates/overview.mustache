@@ -7,6 +7,7 @@
   </p>
 </div>
 
+
 <div class="reportSection">
   <h4>Distance from Port Little Bay</h4>
   <p>
@@ -28,8 +29,46 @@
     The {{#isCollection}}collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlaps with approximately <strong>{{displaced_dive_value}}%</strong> of the total dive value within Curacao's waters, based on the user reported value of dive sites.
   </p>
 </div>
-
+{{^isCollection}}
+  {{#isConservationZone}}
+    <div class="reportSection">
+      <h4>Minimum Size Goal</h4>
+      <div style="padding-left:10px">
+        {{#meetsMinWidthGoal}}
+          <div class="big-green-check"></div>
+        {{/meetsMinWidthGoal}}
+        {{^meetsMinWidthGoal}}
+          <div class="big-red-x"></div>
+        {{/meetsMinWidthGoal}}
+        <div style="display:inline;padding-left:5px;font-size:1.1em">
+          This zone <b>{{#meetsMinWidthGoal}} meets{{/meetsMinWidthGoal}}{{^meetsMinWidthGoal}}does not meet{{/meetsMinWidthGoal}}</b> the conservation goal of having a minimum width of <b>at least 1km</b>.
+        </div>
+      </div>
+   </div>
+{{/isConservationZone}}
+{{/isCollection}}
 {{#isCollection}}
+  <div class="reportSection tableContainer">
+      <h4>Minimum Size Goal</h4>
+      <p>
+        Sanctuary and Marine Reserve (Partial-Take) Zones should have a minimum width of at least 1 kilometer to meet conservation goals.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <td style="width:60px;text-align:center;">Meets 1km Goal?</td>
+            <td>Zone Name</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#min_dim}}
+            <tr>
+              <td>{{#MEETS_THRESH}}<div class="small-green-check"></div>{{/MEETS_THRESH}}{{^MEETS_THRESH}}<div class="small-red-x"></div>{{/MEETS_THRESH}}</td>
+              <td style="text-align:left;">{{NAME}}</td>
+            </tr>
+          {{/min_dim}}
+      </table>
+   </div>
   <div class="reportSection tableContainer">
       <h4>Connectivity</h4>
       <table>
