@@ -17,6 +17,7 @@ class EnvironmentTab extends ReportTab
     'MontserratHabitatToolbox'
     'MontserratBiomassToolbox'
     'MontserratCoralToolbox'
+    'MontserratSnapAndGroupToolbox'
   ]
 
   render: () ->
@@ -27,6 +28,9 @@ class EnvironmentTab extends ReportTab
 
     @addTarget habitats
 
+
+    sandg = @recordSet('MontserratSnapAndGroupToolbox', 'SnapAndGroup').toArray()[0]
+    all_sandg_vals = @getAllValues sandg.HISTO
 
     herb_bio = @recordSet('MontserratBiomassToolbox', 'HerbivoreBiomass').toArray()[0]
     all_herb_vals = @getAllValues herb_bio.HISTO
@@ -61,12 +65,14 @@ class EnvironmentTab extends ReportTab
       fish: fish_bio
       total: total_bio
       coral_count: coral_count
+      sandg: sandg
       hasD3: window.d3
 
 
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
 
+    @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper and Grouper", "Count" )
     @renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
     @renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
     @renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")

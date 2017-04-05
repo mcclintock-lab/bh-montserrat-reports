@@ -88,6 +88,41 @@
  </div>
 
  <div class="reportSection">
+    <h4>Juvenile Snapper and Group</h4>
+    <p>
+      These charts show the minimum, mean and maximum abundance measurements of juvenile snapper and grouper that were taken within your {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}}, in relation to the distribution of abundance around the island.
+    <p>
+    {{#d3IsPresent}}
+      <div class="in-report-header">Juvenile Snapper and Grouper Abundance</div>
+      <div id="sandg_viz" class="sandg_viz"></div>
+    {{/d3IsPresent}}
+    {{^d3IsPresent}}
+      <table data-paging="10">
+        <thead>
+          <tr>
+            <th style="width:250px;"></th>
+            <th>Mean</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#sandg}}
+            <tr>
+              <td>Juvenile Snapper and Grouper</td>
+              <td>{{sandg.SCORE}}</td>
+              <td>{{sandg.MIN}}</td>
+              <td>{{sandg.MAX}}</td>
+            </tr>
+          {{/sandg}}
+        </tbody>
+      </table>
+    {{/d3IsPresent}}
+ </div>
+
+
+
+ <div class="reportSection">
     <h4>Biomass</h4>
     <p>
       These charts show the minimum, mean and maximum biomass value taken within your sketched zone, in relation to the distribution of biomass measured around the island. Biomass was calculated for Herbivores and All Species at regular points along Montserrat's coast.
