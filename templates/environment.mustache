@@ -4,7 +4,7 @@
  <div class="reportSection tableContainer">
     <h4>Benthic Habitats <a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
       <p>
-        The below table describes the overlap of your plan with the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right. The MNI 2016 benthic habitat map was digitized by hand using a combination of in situ observations on scuba/free dive at survey sites (n = approx. 600) and drop camera deployments (n = 343) as part of the Waitt Institute Scientific Assessment. Preliminary context for mapping was gleaned from benthic maps depicted in Wild et. al 2007 and IRF 1993. These maps provided valuable insight into dominant benthic features and the interpretation of site observations. 
+        The following table describes the overlap of your plan with the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right. The MNI 2016 benthic habitat map was digitized by hand using a combination of in situ observations on scuba/free dive at survey sites (n = approx. 600) and drop camera deployments (n = 343) as part of the Waitt Institute Scientific Assessment. Preliminary context for mapping was gleaned from benthic maps depicted in Wild et. al 2007 and IRF 1993. These maps provided valuable insight into dominant benthic features and the interpretation of site observations. 
       </p>
       <table data-paging="10">
         <thead>
@@ -40,8 +40,8 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4" style="text-align:center;">
-              <sup>*</sup>Does the {{#isCollection}}collection of zones{{/isCollection}}{{^isCollection}}zone{{/isCollection}} meet the goal of conserving 30% of the habitat? A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
+            <td colspan="4" style="padding-left:10px;text-align:left;">
+              <sup>*</sup>Indicates whether the selected sanctuary and marine reserve (partial-take) zones have reached th conservation goal of preserving 30% of each habitat. A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
             </td>
           </tr>
         </tfoot>
@@ -88,12 +88,12 @@
  </div>
 
  <div class="reportSection">
-    <h4>Juvenile Snapper and Group</h4>
+    <h4>Nursery Areas</h4>
     <p>
-      These charts show the minimum, mean and maximum abundance measurements of juvenile snapper and grouper that were taken within your {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}}, in relation to the distribution of abundance around the island.
+      These charts show the minimum, mean and maximum abundance measurements of nursery areas that were taken within your {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}}, in relation to the distribution of abundance within Montserrat waters.
     <p>
     {{#d3IsPresent}}
-      <div class="in-report-header">Juvenile Snapper and Grouper Abundance</div>
+      <div class="in-report-header">Nursery Areas</div>
       <div id="sandg_viz" class="sandg_viz"></div>
     {{/d3IsPresent}}
     {{^d3IsPresent}}
@@ -109,7 +109,7 @@
         <tbody>
           {{#sandg}}
             <tr>
-              <td>Juvenile Snapper and Grouper</td>
+              <td>Nursery Areas</td>
               <td>{{sandg.SCORE}}</td>
               <td>{{sandg.MIN}}</td>
               <td>{{sandg.MAX}}</td>
@@ -123,9 +123,9 @@
 
 
  <div class="reportSection">
-    <h4>Biomass</h4>
+    <h4>Fish Biomass</h4>
     <p>
-      These charts show the minimum, mean and maximum biomass value taken within your sketched zone, in relation to the distribution of biomass measured around the island. Biomass was calculated for Herbivores and All Species at regular points along Montserrat's coast.
+      These charts show the minimum, mean and maximum fish biomass value taken within your sketched zone, in relation to the distribution of biomass measured around the island. Biomass was calculated for Herbivores and All Species at regular points along Montserrat's coast.
     <p>
     {{#d3IsPresent}}
       <div class="in-report-header">Herbivore Biomass</div>
