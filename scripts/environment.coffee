@@ -21,36 +21,50 @@ class EnvironmentTab extends ReportTab
   ]
 
   render: () ->
-    # create random data for visualization
-    habitats = @recordSet('MontserratHabitatToolbox', 'Habitats').toArray()
-    habitats = _.sortBy habitats, (h) ->  parseFloat(h.PERC)
-    habitats = habitats.reverse()
 
-    @addTarget habitats
-
-
-    sandg = @recordSet('MontserratSnapAndGroupToolbox', 'SnapAndGroup').toArray()[0]
-    all_sandg_vals = @getAllValues sandg.HISTO
-
-    herb_bio = @recordSet('MontserratBiomassToolbox', 'HerbivoreBiomass').toArray()[0]
-    all_herb_vals = @getAllValues herb_bio.HISTO
-    @roundVals herb_bio
-
-    total_bio = @recordSet('MontserratBiomassToolbox', 'TotalBiomass').toArray()[0]
-    all_total_values = @getAllValues total_bio.HISTO
-    @roundVals total_bio
-
-    fish_bio = @recordSet('MontserratBiomassToolbox', 'FishAbundance').toArray()[0]
-    all_fish_vals = @getAllValues fish_bio.HISTO
-    @roundVals fish_bio
-    
-    coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
-    console.log(coral_count)
 
     isCollection = @model.isCollection()   
     d3IsPresent = window.d3 ? true  : false
-    @roundData habitats
+    if isCollection
+      hasConservationZone = @getHasConservationZone @model.getChildren()
+    else
+      hasConservationZone = @getHasConservationZone [@model]
+    #don't bother getting all day if no conservation zone
+    if hasConservationZone
+      # create random data for visualization
+      habitats = @recordSet('MontserratHabitatToolbox', 'Habitats').toArray()
+      habitats = _.sortBy habitats, (h) ->  parseFloat(h.PERC)
+      habitats = habitats.reverse()
 
+      @addTarget habitats
+
+
+      sandg = @recordSet('MontserratSnapAndGroupToolbox', 'SnapAndGroup').toArray()[0]
+      all_sandg_vals = @getAllValues sandg.HISTO
+
+      herb_bio = @recordSet('MontserratBiomassToolbox', 'HerbivoreBiomass').toArray()[0]
+      all_herb_vals = @getAllValues herb_bio.HISTO
+      @roundVals herb_bio
+
+      total_bio = @recordSet('MontserratBiomassToolbox', 'TotalBiomass').toArray()[0]
+      all_total_values = @getAllValues total_bio.HISTO
+      @roundVals total_bio
+
+      fish_bio = @recordSet('MontserratBiomassToolbox', 'FishAbundance').toArray()[0]
+      all_fish_vals = @getAllValues fish_bio.HISTO
+      @roundVals fish_bio
+      
+      coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
+      console.log(coral_count)
+
+      @roundData habitats
+
+    else
+      habitats = []
+      sandg = []
+      herb = []
+      fish = []
+      total=[]
 
     # setup context object with data and render the template from it
     context =
@@ -59,6 +73,7 @@ class EnvironmentTab extends ReportTab
       attributes: @model.getAttributes()
       admin: @project.isAdmin window.user
       isCollection: isCollection
+
       habitats: habitats
       d3IsPresent: d3IsPresent
       herb: herb_bio
@@ -67,17 +82,25 @@ class EnvironmentTab extends ReportTab
       coral_count: coral_count
       sandg: sandg
       hasD3: window.d3
-
+      hasConservationZone: hasConservationZone
 
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
+    if hasConservationZone
+      @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper and Grouper", "Count" )
+      @renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
+      @renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
+      @renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
 
-    @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper and Grouper", "Count" )
-    @renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
-    @renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
-    @renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
+      @drawCoralBars(coral_count)
 
-    @drawCoralBars(coral_count)
+  getHasConservationZone: (sketches) =>
+    hasConservationZone = false
+    for sketch in sketches
+      for attr in sketch.getAttributes()
+        if attr.exportid == "ZONE_TYPE"
+          hasConservationZone = (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take")
+    return hasConservationZone
 
   drawCoralBars: (coral_counts) =>
     # Check if d3 is present. If not, we're probably dealing with IE

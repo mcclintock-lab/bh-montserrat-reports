@@ -1,5 +1,6 @@
 
 
+{{#hasConservationZone}}
 
  <div class="reportSection tableContainer">
     <h4>Benthic Habitats <a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
@@ -41,7 +42,7 @@
         <tfoot>
           <tr>
             <td colspan="4" style="padding-left:10px;text-align:left;">
-              <sup>*</sup>Indicates whether the selected sanctuary and marine reserve (partial-take) zones have reached th conservation goal of preserving 30% of each habitat. A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
+              <sup>*</sup>Indicates whether the selected Sanctuary and Marine Reserve - Partial Take zones have reached th conservation goal of preserving 30% of each habitat. A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
             </td>
           </tr>
         </tfoot>
@@ -197,3 +198,12 @@
       </table>
     {{/d3IsPresent}}
   </div>
+{{/hasConservationZone}}
+{{^hasConservationZone}}
+ <div class="reportSection">
+    <h4>No Sanctuary or Marine Reserve - Partial Take Zones </h4>
+      <p style="font-size:1.2em">
+        <em>The environment tab reports are only applicable to <b>Sanctuary</b> and <b>Marine Reserve - Partial Take</b> zone types.</em>
+        {{#isCollection}} This collection does not include any of these zones.{{/isCollection}}
+      </p>
+{{/hasConservationZone}}
