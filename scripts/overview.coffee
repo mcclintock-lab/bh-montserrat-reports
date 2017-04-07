@@ -59,7 +59,7 @@ class OverviewTab extends ReportTab
       isConservationZone = false
       meetsMinWidthGoal = false
 
-    console.log('is cons goal:', isConservationZone)
+
     # setup context object with data and render the template from it
     context =
       sketch: @model.forTemplate()
