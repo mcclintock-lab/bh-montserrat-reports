@@ -29,7 +29,7 @@ class EnvironmentTab extends ReportTab
       hasConservationZone = @getHasConservationZone @model.getChildren()
       hasZoneWithGoal = @getHasZoneWithGoal @model.getChildren()
     else
-      hasConservationZone = @getHasConservationZone [@model]
+      hasConservationZone = true
       hasZoneWithGoal = @getHasZoneWithGoal [@model]
 
     #don't bother getting all day if no conservation zone
@@ -103,7 +103,7 @@ class EnvironmentTab extends ReportTab
     for sketch in sketches
       for attr in sketch.getAttributes()
         if attr.exportid == "ZONE_TYPE"
-          hasZoneWithGoal = (attr.value != "Mooring Anchorage Zone" and attr.value != "Recreation Zone")
+          hasZoneWithGoal = (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take")
           
     return hasZoneWithGoal
 
