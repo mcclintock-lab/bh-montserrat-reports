@@ -10,7 +10,9 @@
       <table data-paging="10">
         <thead>
           <tr>
-            <th style="width:40px;">Meets 30% Goal?<sup>*</sup></th>
+            {{#hasZoneWithGoal}}
+              <th style="width:40px;">Meets 30% Goal?<sup>*</sup></th>
+            {{/hasZoneWithGoal}}
             <th style="width:225px;">Habitat</th>
             <th>Area (sq. km.)</th>
             <th>Area (% of Total)</th>
@@ -20,32 +22,37 @@
         <tbody>
           {{#habitats}}
           <tr>
-            <td>
-              {{#MEETS_GOAL}}
-                <div class="small-green-check"></div>
-              {{/MEETS_GOAL}}
-              {{^MEETS_GOAL}}
-                {{#NO_GOAL}}
-                  <div class="no-goal"></div>
-                {{/NO_GOAL}}
-                {{^NO_GOAL}}
-                  <div class="small-red-x"></div>
-                {{/NO_GOAL}}
-              {{/MEETS_GOAL}}
-            </td>
+            {{#hasZoneWithGoal}}
+              <td>
+                {{#MEETS_GOAL}}
+                  <div class="small-green-check"></div>
+                {{/MEETS_GOAL}}
+                {{^MEETS_GOAL}}
+                  {{#NO_GOAL}}
+                    <div class="no-goal"></div>
+                  {{/NO_GOAL}}
+                  {{^NO_GOAL}}
+                    <div class="small-red-x"></div>
+                  {{/NO_GOAL}}
+                {{/MEETS_GOAL}}
+              </td>
+            {{/hasZoneWithGoal}}
             <td>{{HAB_TYPE}}</td>
             <td>{{AREA_SQKM}}</td>
             <td>{{PERC}}</td>
           </tr>
           {{/habitats}}
         </tbody>
+        {{#hasZoneWithGoal}}
         <tfoot>
           <tr>
+
             <td colspan="4" style="padding-left:10px;text-align:left;">
               <sup>*</sup>Indicates whether the selected Marine Reserves zones have reached th conservation goal of preserving 30% of each habitat. A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
             </td>
           </tr>
         </tfoot>
+        {{/hasZoneWithGoal}}
       </table>
  </div>
  <div class="reportSection tableContainer">

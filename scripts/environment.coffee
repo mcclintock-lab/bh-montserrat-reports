@@ -27,8 +27,11 @@ class EnvironmentTab extends ReportTab
     d3IsPresent = window.d3 ? true  : false
     if isCollection
       hasConservationZone = @getHasConservationZone @model.getChildren()
+      hasZoneWithGoal = @getHasZoneWithGoal @model.getChildren()
     else
       hasConservationZone = @getHasConservationZone [@model]
+      hasZoneWithGoal = @getHasZoneWithGoal [@model]
+
     #don't bother getting all day if no conservation zone
     if hasConservationZone
       # create random data for visualization
@@ -83,6 +86,7 @@ class EnvironmentTab extends ReportTab
       sandg: sandg
       hasD3: window.d3
       hasConservationZone: hasConservationZone
+      hasZoneWithGoal: hasZoneWithGoal
 
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
@@ -94,12 +98,22 @@ class EnvironmentTab extends ReportTab
 
       @drawCoralBars(coral_count)
 
+  getHasZoneWithGoal: (sketches) =>
+    hasZoneWithGoal = false
+    for sketch in sketches
+      for attr in sketch.getAttributes()
+        if attr.exportid == "ZONE_TYPE"
+          hasZoneWithGoal = (attr.value != "Mooring Anchorage Zone" and attr.value != "Recreation Zone")
+          
+    return hasZoneWithGoal
+
   getHasConservationZone: (sketches) =>
     hasConservationZone = false
     for sketch in sketches
       for attr in sketch.getAttributes()
         if attr.exportid == "ZONE_TYPE"
-          hasConservationZone = (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take")
+          hasConservationZone = (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take" or attr.value == "Mooring Anchorage Zone" or attr.value == "Recreation Zone")
+          
     return hasConservationZone
 
   drawCoralBars: (coral_counts) =>
