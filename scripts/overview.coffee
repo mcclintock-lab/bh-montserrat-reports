@@ -16,7 +16,8 @@ class OverviewTab extends ReportTab
 
     # create random data for visualization
     size = @recordSet('SizeAndConnectivity', 'Size').toArray()[0]
-
+    
+    size.PERC = Number((parseFloat(size.SIZE_SQKM)/338.197)*100.0).toFixed(1)
     connectivity = @recordSet('SizeAndConnectivity', 'Connectivity').toArray()
     isCollection = @model.isCollection()
 
