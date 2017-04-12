@@ -22,7 +22,6 @@ class EnvironmentTab extends ReportTab
 
   render: () ->
 
-
     isCollection = @model.isCollection()   
     d3IsPresent = window.d3 ? true  : false
     if isCollection
@@ -58,8 +57,16 @@ class EnvironmentTab extends ReportTab
       @roundVals fish_bio
       
       coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
-      console.log(coral_count)
+      
+      fishpots = @recordSet('MontserratBiomassToolbox', 'FishPot').toArray()
+      if fishpots?.length > 0
 
+        fishpot_count = fishpots[0].COUNT
+        fishpot_total = fishpots[0].TOTAL
+      else
+        fishpot_count = 0
+        fishpot_total = 157
+        
       @roundData habitats
 
     else
@@ -87,6 +94,8 @@ class EnvironmentTab extends ReportTab
       hasD3: window.d3
       hasConservationZone: hasConservationZone
       hasZoneWithGoal: hasZoneWithGoal
+      fishpot_count: fishpot_count
+      fishpot_total: fishpot_total
 
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
@@ -97,6 +106,7 @@ class EnvironmentTab extends ReportTab
       @renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
 
       @drawCoralBars(coral_count)
+      @drawFishPotBars(fishpot_count, fishpot_total)
 
   getHasZoneWithGoal: (sketches) =>
     hasZoneWithGoal = false
@@ -115,6 +125,41 @@ class EnvironmentTab extends ReportTab
           hasConservationZone = (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take" or attr.value == "Mooring Anchorage Zone" or attr.value == "Recreation Zone")
           
     return hasConservationZone
+
+  drawFishPotBars: (fishpot_count, fishpot_total) =>
+    if window.d3
+      isCollection = @model.isCollection()
+      suffix = "sketch"
+
+      if isCollection
+        suffix="collection"
+
+      count = fishpot_count
+      total = fishpot_total
+      outside_sketch_start = total*0.48
+
+      label = count+"/"+total+" fish pots are found within this "+suffix
+      range = [
+        {
+          bg: "#8e5e50"
+          start: 0
+          end: count
+          class: 'in-sketch'
+          value: count
+          name: label
+        },
+        {
+          bg: '#dddddd'
+          start: count
+          end: total
+          class: 'outside-sketch'
+          value: total
+          label_start: outside_sketch_start
+          name: ''
+        }
+      ]
+
+      @drawBars(range, 3, total)  
 
   drawCoralBars: (coral_counts) =>
     # Check if d3 is present. If not, we're probably dealing with IE
@@ -151,14 +196,13 @@ class EnvironmentTab extends ReportTab
               name: ''
             }
           ]
+
           if name == "Orbicella annularis"
             index = 0
           else if name == "Orbicella faveolata"
             index = 1
           else
             index = 2
-
-
 
           @drawBars(range, index, total)
 

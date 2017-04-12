@@ -95,6 +95,33 @@
       {{/hasD3}}
  </div>
 
+ <div class="reportSection tableContainer">
+  <h4>Fish Pots <a href="#" data-toggle-node="58ed7cb54af25d590ba4fc3c" data-visible="false">show layer</a></h4>
+    {{#hasD3}}
+      <div>
+        <div class="viz" id="fish_pots">
+          <div><i>Fish Pots</i></div>
+        </div>
+      </div>
+    {{/hasD3}}
+    {{^hasD3}}
+      <table data-paging="10">
+        <thead>
+          <tr>
+            <th style="width:225px;">Count</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{fishpot_count}}</td>
+            <td>{{fishpot_total}}</td>
+          </tr>
+        </tbody>
+      </table>
+    {{/hasD3}}
+ </div>
+
  <div class="reportSection">
     <h4>Nursery Areas</h4>
     <p>
