@@ -138,7 +138,7 @@ class EnvironmentTab extends ReportTab
       total = fishpot_total
       outside_sketch_start = total*0.48
 
-      label = count+"/"+total+" fish pots are found within this "+suffix
+      label = count+"/"+total+" of the fish pots within Montserrat's waters are found within this "+suffix
       range = [
         {
           bg: "#8e5e50"
