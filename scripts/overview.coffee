@@ -11,8 +11,7 @@ class OverviewTab extends ReportTab
     'DiveAndFishingValue'
     'Distance'
     'MinDimensionToolbox'
-    'SATestToolbox'
-    'SATestToolbox10.4'
+
   ]
   render: () ->
 
@@ -32,7 +31,7 @@ class OverviewTab extends ReportTab
       ddv = @recordSet('DiveAndFishingValue', 'DiveValue').toArray()[0]
     catch err
       console.log("error: ",err)
-
+    '''
     try
       satest = @recordSet('SATestToolbox', 'ResultMsg')
       console.log("-->> Spatial Analyst Test on 10.5: ", satest.data.value)
@@ -44,7 +43,7 @@ class OverviewTab extends ReportTab
       console.log("-->> Spatial Analyst Test on 10.4: ", satest.data.value)
     catch e
       console.log("Spatial Analyst 10.4 failed", e)
-
+    '''
     if dfv
       if dfv.PERCENT < 0.01
         displaced_fishing_value = "< 0.01"
