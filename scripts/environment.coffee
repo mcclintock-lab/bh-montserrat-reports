@@ -449,7 +449,9 @@ class EnvironmentTab extends ReportTab
         d.MEETS_GOAL = false
         d.NO_GOAL = true
       else
-        d.MEETS_GOAL = (parseFloat(d.PERC) > 30.0)
+        d.MEETS_10_GOAL = (parseFloat(d.PERC) > 10.0)
+        d.MEETS_20_GOAL = (parseFloat(d.PERC) > 20.0)
+        d.MEETS_30_GOAL = (parseFloat(d.PERC) > 30.0)
 
   roundVals: (d) =>    
       d.MEAN = parseFloat(d.MEAN).toFixed(1)

@@ -21,9 +21,16 @@ class OverviewTab extends ReportTab
     connectivity = @recordSet('SizeAndConnectivity', 'Connectivity').toArray()
     isCollection = @model.isCollection()
 
-    dfv = @recordSet('DiveAndFishingValue', 'FishingValue').toArray()[0]
-    ddv = @recordSet('DiveAndFishingValue', 'DiveValue').toArray()[0]
-    
+
+    try
+
+      raw_val = @recordSet('DiveAndFishingValue', 'ResultMsg')
+      console.log("return msg: ", raw_val)
+
+      dfv = @recordSet('DiveAndFishingValue', 'FishingValue').toArray()[0]
+      ddv = @recordSet('DiveAndFishingValue', 'DiveValue').toArray()[0]
+    catch err
+      console.log("error: ",err)
 
     if dfv
       if dfv.PERCENT < 0.01

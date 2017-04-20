@@ -11,6 +11,8 @@
         <thead>
           <tr>
             {{#hasZoneWithGoal}}
+              <th style="width:40px;">Meets 10% Goal?<sup>*</sup></th>
+              <th style="width:40px;">Meets 20% Goal?<sup>*</sup></th>
               <th style="width:40px;">Meets 30% Goal?<sup>*</sup></th>
             {{/hasZoneWithGoal}}
             <th style="width:225px;">Habitat</th>
@@ -24,17 +26,43 @@
           <tr>
             {{#hasZoneWithGoal}}
               <td>
-                {{#MEETS_GOAL}}
+                {{#MEETS_10_GOAL}}
                   <div class="small-green-check"></div>
-                {{/MEETS_GOAL}}
-                {{^MEETS_GOAL}}
+                {{/MEETS_10_GOAL}}
+                {{^MEETS_10_GOAL}}
                   {{#NO_GOAL}}
                     <div class="no-goal"></div>
                   {{/NO_GOAL}}
                   {{^NO_GOAL}}
                     <div class="small-red-x"></div>
                   {{/NO_GOAL}}
-                {{/MEETS_GOAL}}
+                {{/MEETS_10_GOAL}}
+              </td>
+              <td>
+                {{#MEETS_20_GOAL}}
+                  <div class="small-green-check"></div>
+                {{/MEETS_20_GOAL}}
+                {{^MEETS_20_GOAL}}
+                  {{#NO_GOAL}}
+                    <div class="no-goal"></div>
+                  {{/NO_GOAL}}
+                  {{^NO_GOAL}}
+                    <div class="small-red-x"></div>
+                  {{/NO_GOAL}}
+                {{/MEETS_20_GOAL}}
+              </td>
+              <td>
+                {{#MEETS_30_GOAL}}
+                  <div class="small-green-check"></div>
+                {{/MEETS_30_GOAL}}
+                {{^MEETS_30_GOAL}}
+                  {{#NO_GOAL}}
+                    <div class="no-goal"></div>
+                  {{/NO_GOAL}}
+                  {{^NO_GOAL}}
+                    <div class="small-red-x"></div>
+                  {{/NO_GOAL}}
+                {{/MEETS_30_GOAL}}
               </td>
             {{/hasZoneWithGoal}}
             <td>{{HAB_TYPE}}</td>
@@ -47,8 +75,8 @@
         <tfoot>
           <tr>
 
-            <td colspan="4" style="padding-left:10px;text-align:left;">
-              <sup>*</sup>Indicates whether the selected Marine Reserves zones have reached th conservation goal of preserving 30% of each habitat. A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
+            <td colspan="6" style="padding-left:10px;text-align:left;">
+              <sup>*</sup>Indicates whether the selected Marine Reserves zones have reached th conservation goal of preserving 10/20/30% of each habitat. A green check indicates that the goal is met, red x means that the goal is not met, and a gray dash indicates that there is no goal for that habitat.
             </td>
           </tr>
         </tfoot>

@@ -59,7 +59,14 @@
         <tbody>
           {{#min_dim}}
             <tr>
-              <td>{{#MEETS_THRESH}}<div class="small-green-check"></div>{{/MEETS_THRESH}}{{^MEETS_THRESH}}<div class="small-red-x"></div>{{/MEETS_THRESH}}</td>
+              <td>
+                {{#MEETS_THRESH}}
+                  <div class="small-green-check"></div>
+                {{/MEETS_THRESH}}
+                {{^MEETS_THRESH}} 
+                  <div class="small-red-x"></div>
+                {{/MEETS_THRESH}}
+              </td>
               <td style="text-align:left;">{{NAME}}</td>
             </tr>
           {{/min_dim}}
