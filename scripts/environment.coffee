@@ -15,7 +15,6 @@ class EnvironmentTab extends ReportTab
   template: templates.environment
   dependencies:[ 
     'MontserratHabitatToolbox'
-    'MontserratBiomassToolbox'
     'MontserratCoralToolbox'
     'MontserratSnapAndGroupToolbox'
   ]
@@ -60,16 +59,9 @@ class EnvironmentTab extends ReportTab
     all_fish_vals = @getAllValues fish_bio.HISTO
     @roundVals fish_bio
     '''
-    coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
-    
-    fishpots = @recordSet('MontserratBiomassToolbox', 'FishPot').toArray()
-    if fishpots?.length > 0
 
-      fishpot_count = fishpots[0].COUNT
-      fishpot_total = fishpots[0].TOTAL
-    else
-      fishpot_count = 0
-      fishpot_total = 157
+    coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
+    nogoal_coral_count = @recordSet('MontserratCoralToolbox', 'NonReserveCoral').toArray()
         
     @roundData habitats
     @roundData nogoal_habitats
@@ -83,6 +75,8 @@ class EnvironmentTab extends ReportTab
       isCollection: isCollection
 
       habitats: habitats
+      nogoal_habitats: nogoal_habitats
+
       d3IsPresent: d3IsPresent
       #herb: herb_bio
       #fish: fish_bio
@@ -93,21 +87,17 @@ class EnvironmentTab extends ReportTab
       hasConservationZone: hasConservationZone
       hasZoneWithGoal: hasZoneWithGoal
       hasZoneWithNoGoal: hasZoneWithNoGoal
-      nogoal_habitats: nogoal_habitats
-
-      fishpot_count: fishpot_count
-      fishpot_total: fishpot_total
-
+      
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
-    if hasConservationZone
-      @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper and Grouper", "Count" )
-      #@renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
-      #@renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
-      #@renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
 
-      @drawCoralBars(coral_count)
-      @drawFishPotBars(fishpot_count, fishpot_total)
+    @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper and Grouper", "Count" )
+    #@renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
+    #@renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
+    #@renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
+
+    @drawCoralBars(coral_count, 0)
+    @drawCoralBars(nogoal_coral_count, 3)
 
   getHasZoneWithGoal: (sketches) =>
     zonesWithGoalCount = 0
@@ -139,42 +129,8 @@ class EnvironmentTab extends ReportTab
           
     return hasConservationZone
 
-  drawFishPotBars: (fishpot_count, fishpot_total) =>
-    if window.d3
-      isCollection = @model.isCollection()
-      suffix = "sketch"
 
-      if isCollection
-        suffix="collection"
-
-      count = fishpot_count
-      total = fishpot_total
-      outside_sketch_start = total*0.48
-
-      label = count+"/"+total+" of the fish pots within Montserrat's waters are found within this "+suffix
-      range = [
-        {
-          bg: "#8e5e50"
-          start: 0
-          end: count
-          class: 'in-sketch'
-          value: count
-          name: label
-        },
-        {
-          bg: '#dddddd'
-          start: count
-          end: total
-          class: 'outside-sketch'
-          value: total
-          label_start: outside_sketch_start
-          name: ''
-        }
-      ]
-
-      @drawBars(range, 3, total)  
-
-  drawCoralBars: (coral_counts) =>
+  drawCoralBars: (coral_counts, start_dex) =>
     # Check if d3 is present. If not, we're probably dealing with IE
 
       if window.d3
@@ -183,7 +139,7 @@ class EnvironmentTab extends ReportTab
         if isCollection
           suffix="collection"
         for coral in coral_counts
-          console.log("coral", coral)
+          
           name = coral.NAME
           count = parseInt(coral.COUNT)
           total = parseInt(coral.TOT)
@@ -211,22 +167,21 @@ class EnvironmentTab extends ReportTab
           ]
 
           if name == "Orbicella annularis"
-            index = 0
+            index = start_dex
           else if name == "Orbicella faveolata"
-            index = 1
+            index = start_dex+1
           else
-            index = 2
+            index = start_dex+2
 
           @drawBars(range, index, total)
 
 
   drawBars: (range, index, max_value) =>
-    console.log("max value ---->>>> ", max_value)
+
     el = @$('.viz')[index]
     x = d3.scale.linear()
       .domain([0, max_value])
       .range([0, 400])
-
 
     chart = d3.select(el)
     chart.selectAll("div.range")

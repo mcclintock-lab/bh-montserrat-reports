@@ -451,7 +451,7 @@
   font-size: 12px;
   text-align: left;
 }
-.viz > div.range > span padding-left:5px span {
+.viz > div.range > span span {
   font-size: 12px;
   display: block;
   color: #888;
@@ -461,6 +461,12 @@
 }
 .viz > div.range > span.label-outside-sketch {
   margin-top: 9px;
+}
+.viz > div.range > span.label-pots-in-sketch {
+  margin-top: 28px;
+}
+.viz > div.range > span.label-pots-outside-sketch {
+  margin-top: 28px;
 }
 .fishingValue [data-toggle-node] {
   float: right;
