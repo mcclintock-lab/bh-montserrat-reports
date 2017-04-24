@@ -27,54 +27,52 @@ class EnvironmentTab extends ReportTab
     if isCollection
       hasConservationZone = @getHasConservationZone @model.getChildren()
       hasZoneWithGoal = @getHasZoneWithGoal @model.getChildren()
+      hasZoneWithNoGoal = @getHasZoneWithNoGoal @model.getChildren()
     else
       hasConservationZone = true
       hasZoneWithGoal = @getHasZoneWithGoal [@model]
-
-    #don't bother getting all day if no conservation zone
-    if hasConservationZone
-      # create random data for visualization
-      habitats = @recordSet('MontserratHabitatToolbox', 'Habitats').toArray()
-      habitats = _.sortBy habitats, (h) ->  parseFloat(h.PERC)
-      habitats = habitats.reverse()
-
-      @addTarget habitats
+      hasZoneWithNoGoal = @getHasZoneWithNoGoal [@model]
 
 
-      sandg = @recordSet('MontserratSnapAndGroupToolbox', 'SnapAndGroup').toArray()[0]
-      all_sandg_vals = @getAllValues sandg.HISTO
+    # create random data for visualization
+    habitats = @recordSet('MontserratHabitatToolbox', 'Habitats').toArray()
+    habitats = _.sortBy habitats, (h) ->  parseFloat(h.PERC)
+    habitats = habitats.reverse()
 
-      herb_bio = @recordSet('MontserratBiomassToolbox', 'HerbivoreBiomass').toArray()[0]
-      all_herb_vals = @getAllValues herb_bio.HISTO
-      @roundVals herb_bio
+    @addTarget habitats
 
-      total_bio = @recordSet('MontserratBiomassToolbox', 'TotalBiomass').toArray()[0]
-      all_total_values = @getAllValues total_bio.HISTO
-      @roundVals total_bio
+    nogoal_habitats = @recordSet('MontserratHabitatToolbox', 'NonReserveHabitats').toArray()
+    nogoal_habitats = _.sortBy nogoal_habitats, (h) ->  parseFloat(h.PERC)
+    nogoal_habitats = nogoal_habitats.reverse()
 
-      fish_bio = @recordSet('MontserratBiomassToolbox', 'FishAbundance').toArray()[0]
-      all_fish_vals = @getAllValues fish_bio.HISTO
-      @roundVals fish_bio
-      
-      coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
-      
-      fishpots = @recordSet('MontserratBiomassToolbox', 'FishPot').toArray()
-      if fishpots?.length > 0
+    sandg = @recordSet('MontserratSnapAndGroupToolbox', 'SnapAndGroup').toArray()[0]
+    all_sandg_vals = @getAllValues sandg.HISTO
+    '''
+    herb_bio = @recordSet('MontserratBiomassToolbox', 'HerbivoreBiomass').toArray()[0]
+    all_herb_vals = @getAllValues herb_bio.HISTO
+    @roundVals herb_bio
 
-        fishpot_count = fishpots[0].COUNT
-        fishpot_total = fishpots[0].TOTAL
-      else
-        fishpot_count = 0
-        fishpot_total = 157
-        
-      @roundData habitats
+    total_bio = @recordSet('MontserratBiomassToolbox', 'TotalBiomass').toArray()[0]
+    all_total_values = @getAllValues total_bio.HISTO
+    @roundVals total_bio
 
+    fish_bio = @recordSet('MontserratBiomassToolbox', 'FishAbundance').toArray()[0]
+    all_fish_vals = @getAllValues fish_bio.HISTO
+    @roundVals fish_bio
+    '''
+    coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
+    
+    fishpots = @recordSet('MontserratBiomassToolbox', 'FishPot').toArray()
+    if fishpots?.length > 0
+
+      fishpot_count = fishpots[0].COUNT
+      fishpot_total = fishpots[0].TOTAL
     else
-      habitats = []
-      sandg = []
-      herb = []
-      fish = []
-      total=[]
+      fishpot_count = 0
+      fishpot_total = 157
+        
+    @roundData habitats
+    @roundData nogoal_habitats
 
     # setup context object with data and render the template from it
     context =
@@ -86,14 +84,17 @@ class EnvironmentTab extends ReportTab
 
       habitats: habitats
       d3IsPresent: d3IsPresent
-      herb: herb_bio
-      fish: fish_bio
-      total: total_bio
+      #herb: herb_bio
+      #fish: fish_bio
+      #total: total_bio
       coral_count: coral_count
       sandg: sandg
       hasD3: window.d3
       hasConservationZone: hasConservationZone
       hasZoneWithGoal: hasZoneWithGoal
+      hasZoneWithNoGoal: hasZoneWithNoGoal
+      nogoal_habitats: nogoal_habitats
+
       fishpot_count: fishpot_count
       fishpot_total: fishpot_total
 
@@ -101,21 +102,33 @@ class EnvironmentTab extends ReportTab
     @enableLayerTogglers()
     if hasConservationZone
       @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper and Grouper", "Count" )
-      @renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
-      @renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
-      @renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
+      #@renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
+      #@renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
+      #@renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
 
       @drawCoralBars(coral_count)
       @drawFishPotBars(fishpot_count, fishpot_total)
 
   getHasZoneWithGoal: (sketches) =>
-    hasZoneWithGoal = false
+    zonesWithGoalCount = 0
     for sketch in sketches
       for attr in sketch.getAttributes()
         if attr.exportid == "ZONE_TYPE"
-          hasZoneWithGoal = (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take")
+          if (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take")
+            zonesWithGoalCount+=1
           
-    return hasZoneWithGoal
+    return zonesWithGoalCount > 0
+
+  getHasZoneWithNoGoal: (sketches) =>
+    zonesWithNoGoalCount = 0
+    for sketch in sketches
+      for attr in sketch.getAttributes()
+        if attr.exportid == "ZONE_TYPE"
+          console.log("attr value: ", attr.value)
+          if (attr.value != "Sanctuary" and attr.value != "Marine Reserve - Partial Take")
+            zonesWithNoGoalCount+=1
+
+    return zonesWithNoGoalCount > 0
 
   getHasConservationZone: (sketches) =>
     hasConservationZone = false

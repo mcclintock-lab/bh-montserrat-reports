@@ -1,20 +1,16 @@
-
-
-{{#hasConservationZone}}
-
+{{#hasZoneWithGoal}}
  <div class="reportSection tableContainer">
-    <h4>Benthic Habitats <a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
+    <h4>Benthic Habitats {{#isCollection}}in Marine Reserves{{/isCollection}}<a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
       <p>
-        The following table describes the overlap of your plan with the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right. The MNI 2016 benthic habitat map was digitized by hand using a combination of in situ observations on scuba/free dive at survey sites (n = approx. 600) and drop camera deployments (n = 343) as part of the Waitt Institute Scientific Assessment. Preliminary context for mapping was gleaned from benthic maps depicted in Wild et. al 2007 and IRF 1993. These maps provided valuable insight into dominant benthic features and the interpretation of site observations. 
+        The following table describes the overlap between {{#isCollection}}the marine reserve sketches within your plan{{/isCollection}}{{^isCollection}}your sketch{{/isCollection}} and the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right. The MNI 2016 benthic habitat map was digitized by hand using a combination of in situ observations on scuba/free dive at survey sites (n = approx. 600) and drop camera deployments (n = 343) as part of the Waitt Institute Scientific Assessment. Preliminary context for mapping was gleaned from benthic maps depicted in Wild et. al 2007 and IRF 1993. These maps provided valuable insight into dominant benthic features and the interpretation of site observations. 
       </p>
       <table data-paging="10">
         <thead>
           <tr>
-            {{#hasZoneWithGoal}}
               <th style="width:40px;">Meets 10% Goal?<sup>*</sup></th>
               <th style="width:40px;">Meets 20% Goal?<sup>*</sup></th>
               <th style="width:40px;">Meets 30% Goal?<sup>*</sup></th>
-            {{/hasZoneWithGoal}}
+
             <th style="width:225px;">Habitat</th>
             <th>Area (sq. km.)</th>
             <th>Area (% of Total)</th>
@@ -24,7 +20,6 @@
         <tbody>
           {{#habitats}}
           <tr>
-            {{#hasZoneWithGoal}}
               <td>
                 {{#MEETS_10_GOAL}}
                   <div class="small-green-check"></div>
@@ -64,14 +59,13 @@
                   {{/NO_GOAL}}
                 {{/MEETS_30_GOAL}}
               </td>
-            {{/hasZoneWithGoal}}
+           
             <td>{{HAB_TYPE}}</td>
             <td>{{AREA_SQKM}}</td>
             <td>{{PERC}}</td>
           </tr>
           {{/habitats}}
         </tbody>
-        {{#hasZoneWithGoal}}
         <tfoot>
           <tr>
 
@@ -80,9 +74,35 @@
             </td>
           </tr>
         </tfoot>
-        {{/hasZoneWithGoal}}
       </table>
  </div>
+{{/hasZoneWithGoal}}
+{{#hasZoneWithNoGoal}}
+ <div class="reportSection tableContainer">
+    <h4>Benthic Habitats {{#isCollection}}in Non Marine Reserves{{/isCollection}}<a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
+      <p>
+        The following table describes the overlap of {{#isCollection}}the sketches in your plan that are <b>NOT</b> marine reserves with{{/isCollection}}{{^isCollection}}your sketch and{{/isCollection}} the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right. The MNI 2016 benthic habitat map was digitized by hand using a combination of in situ observations on scuba/free dive at survey sites (n = approx. 600) and drop camera deployments (n = 343) as part of the Waitt Institute Scientific Assessment. Preliminary context for mapping was gleaned from benthic maps depicted in Wild et. al 2007 and IRF 1993. These maps provided valuable insight into dominant benthic features and the interpretation of site observations. 
+      </p>
+      <table data-paging="10">
+        <thead>
+          <tr>
+            <th style="width:225px;">Habitat</th>
+            <th>Area (sq. km.)</th>
+            <th>Area (% of Total)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#nogoal_habitats}}
+          <tr>
+            <td>{{HAB_TYPE}}</td>
+            <td>{{AREA_SQKM}}</td>
+            <td>{{PERC}}</td>
+          </tr>
+          {{/nogoal_habitats}}
+        </tbody>
+      </table>
+ </div>
+{{/hasZoneWithNoGoal}}
  <div class="reportSection tableContainer">
     <h4>Presence of IUCN Listed Coral Species <a href="#" data-toggle-node="58e671fc4af25d590ba4ccef" data-visible="false">show layer</a></h4>
       <p>
@@ -184,88 +204,80 @@
  </div>
 
 
-
- <div class="reportSection">
-    <h4>Fish Biomass</h4>
-    <p>
-      These charts show the minimum, mean and maximum fish biomass value taken within your sketched zone, in relation to the distribution of biomass measured around the island. Biomass was calculated for Herbivores and All Species at regular points along Montserrat's coast.
-    <p>
-    {{#d3IsPresent}}
-      <div class="in-report-header">Herbivore Biomass</div>
-      <div id="herb_viz" class="herb_viz"></div>
-      <div class="in-report-header">All Species Biomass</div>
-      <div id="total_viz" class="total_viz"></div>
-    {{/d3IsPresent}}
-    {{^d3IsPresent}}
-      <table data-paging="10">
-        <thead>
-          <tr>
-            <th style="width:250px;"></th>
-            <th>Mean</th>
-            <th>Minimum</th>
-            <th>Maximum</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#herb}}
+<!--
+   <div class="reportSection">
+      <h4>Fish Biomass</h4>
+      <p>
+        These charts show the minimum, mean and maximum fish biomass value taken within your sketched zone, in relation to the distribution of biomass measured around the island. Biomass was calculated for Herbivores and All Species at regular points along Montserrat's coast.
+      <p>
+      {{#d3IsPresent}}
+        <div class="in-report-header">Herbivore Biomass</div>
+        <div id="herb_viz" class="herb_viz"></div>
+        <div class="in-report-header">All Species Biomass</div>
+        <div id="total_viz" class="total_viz"></div>
+      {{/d3IsPresent}}
+      {{^d3IsPresent}}
+        <table data-paging="10">
+          <thead>
             <tr>
-              <td>Herbivores</td>
-              <td>{{herb.SCORE}}</td>
-              <td>{{herb.MIN}}</td>
-              <td>{{herb.MAX}}</td>
+              <th style="width:250px;"></th>
+              <th>Mean</th>
+              <th>Minimum</th>
+              <th>Maximum</th>
             </tr>
-          {{/herb}}
-          {{#total}}
-            <tr>
-              <td>Totals</td>
-              <td>{{total.SCORE}}</td>
-              <td>{{total.MIN}}</td>
-              <td>{{total.MAX}}</td>
-            </tr>
-          {{/total}}
-        </tbody>
-      </table>
-    {{/d3IsPresent}}
- </div>
+          </thead>
+          <tbody>
+            {{#herb}}
+              <tr>
+                <td>Herbivores</td>
+                <td>{{herb.SCORE}}</td>
+                <td>{{herb.MIN}}</td>
+                <td>{{herb.MAX}}</td>
+              </tr>
+            {{/herb}}
+            {{#total}}
+              <tr>
+                <td>Totals</td>
+                <td>{{total.SCORE}}</td>
+                <td>{{total.MIN}}</td>
+                <td>{{total.MAX}}</td>
+              </tr>
+            {{/total}}
+          </tbody>
+        </table>
+      {{/d3IsPresent}}
+   </div>
 
- <div class="reportSection">
-    <h4>Fish Abundance</h4>
-    <p>
-      These charts show the minimum, mean and maximum fish abundance value taken within your sketched zone.
-    <p>
-    {{#d3IsPresent}}
-      <div id="fish_viz" class="fish_viz"></div>
-    {{/d3IsPresent}}
-    {{^d3IsPresent}}
-      <table data-paging="10">
-        <thead>
-          <tr>
-            <th style="width:250px;"></th>
-            <th>Mean</th>
-            <th>Minimum</th>
-            <th>Maximum</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#fish}}
+   <div class="reportSection">
+      <h4>Fish Abundance</h4>
+      <p>
+        These charts show the minimum, mean and maximum fish abundance value taken within your sketched zone.
+      <p>
+      {{#d3IsPresent}}
+        <div id="fish_viz" class="fish_viz"></div>
+      {{/d3IsPresent}}
+      {{^d3IsPresent}}
+        <table data-paging="10">
+          <thead>
             <tr>
-              <td>Herbivores</td>
-              <td>{{fish.SCORE}}</td>
-              <td>{{fish.MIN}}</td>
-              <td>{{fish.MAX}}</td>
+              <th style="width:250px;"></th>
+              <th>Mean</th>
+              <th>Minimum</th>
+              <th>Maximum</th>
             </tr>
-          {{/fish}}
+          </thead>
+          <tbody>
+            {{#fish}}
+              <tr>
+                <td>Herbivores</td>
+                <td>{{fish.SCORE}}</td>
+                <td>{{fish.MIN}}</td>
+                <td>{{fish.MAX}}</td>
+              </tr>
+            {{/fish}}
 
-        </tbody>
-      </table>
-    {{/d3IsPresent}}
-  </div>
-{{/hasConservationZone}}
-{{^hasConservationZone}}
- <div class="reportSection">
-    <h4>No Marine Reserves </h4>
-      <p style="font-size:1.2em">
-        <em>The environment tab reports are only applicable to <b>Marine Reserves</b> zone types.</em>
-        {{#isCollection}} This collection does not include any of these zones.{{/isCollection}}
-      </p>
-{{/hasConservationZone}}
+          </tbody>
+        </table>
+      {{/d3IsPresent}}
+    </div>
+  -->
