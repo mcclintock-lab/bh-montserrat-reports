@@ -24,28 +24,44 @@ class EnvironmentTab extends ReportTab
     isCollection = @model.isCollection()   
     d3IsPresent = window.d3 ? true  : false
     if isCollection
-      hasConservationZone = @getHasConservationZone @model.getChildren()
       hasZoneWithGoal = @getHasZoneWithGoal @model.getChildren()
-      hasZoneWithNoGoal = @getHasZoneWithNoGoal @model.getChildren()
+      hasSanctuary = @getHasSanctuaryOrPartialTake(@model.getChildren(), "Sanctuary")
+      hasPartialTake = @getHasSanctuaryOrPartialTake(@model.getChildren(), "Marine Reserve - Partial Take")
     else
-      hasConservationZone = true
-      hasZoneWithGoal = @getHasZoneWithGoal [@model]
-      hasZoneWithNoGoal = @getHasZoneWithNoGoal [@model]
+      hasZoneWithGoal = @getHasZoneWithGoal([@model])
+      hasSanctuary = @getHasSanctuaryOrPartialTake([@model], "Sanctuary")
+      hasPartialTake = @getHasSanctuaryOrPartialTake([@model],"Marine Reserve - Partial Take")
 
+    console.log("has zone with goal: ", hasZoneWithGoal)
+    console.log("has sanc: ", hasSanctuary)
+    console.log("has pt: ", hasPartialTake)
 
-    # create random data for visualization
     habitats = @recordSet('MontserratHabitatToolbox', 'Habitats').toArray()
     habitats = _.sortBy habitats, (h) ->  parseFloat(h.PERC)
     habitats = habitats.reverse()
-
     @addTarget habitats
 
+    sanc_habitats = @recordSet('MontserratHabitatToolbox', 'SanctuaryHabitats').toArray()
+    sanc_habitats = _.sortBy sanc_habitats, (h) ->  parseFloat(h.PERC)
+    sanc_habitats = sanc_habitats.reverse()
+    @addTarget sanc_habitats
+    
+    pt_habitats = @recordSet('MontserratHabitatToolbox', 'PartialTakeHabitats').toArray()
+    pt_habitats = _.sortBy pt_habitats, (h) ->  parseFloat(h.PERC)
+    pt_habitats = pt_habitats.reverse()
+    @addTarget pt_habitats
+
+    console.log("sanc habitats: ", sanc_habitats)
+    console.log("pt habitats: ", pt_habitats)
+    '''
     nogoal_habitats = @recordSet('MontserratHabitatToolbox', 'NonReserveHabitats').toArray()
     nogoal_habitats = _.sortBy nogoal_habitats, (h) ->  parseFloat(h.PERC)
     nogoal_habitats = nogoal_habitats.reverse()
+    '''
 
     sandg = @recordSet('MontserratSnapAndGroupToolbox', 'SnapAndGroup').toArray()[0]
     all_sandg_vals = @getAllValues sandg.HISTO
+
     '''
     herb_bio = @recordSet('MontserratBiomassToolbox', 'HerbivoreBiomass').toArray()[0]
     all_herb_vals = @getAllValues herb_bio.HISTO
@@ -62,9 +78,10 @@ class EnvironmentTab extends ReportTab
 
     coral_count = @recordSet('MontserratCoralToolbox', 'Coral').toArray()
     nogoal_coral_count = @recordSet('MontserratCoralToolbox', 'NonReserveCoral').toArray()
-        
+       
     @roundData habitats
-    @roundData nogoal_habitats
+    @roundData sanc_habitats
+    @roundData pt_habitats
 
     # setup context object with data and render the template from it
     context =
@@ -75,18 +92,19 @@ class EnvironmentTab extends ReportTab
       isCollection: isCollection
 
       habitats: habitats
-      nogoal_habitats: nogoal_habitats
-
+      sanc_habitats: sanc_habitats
+      pt_habitats: pt_habitats
       d3IsPresent: d3IsPresent
+
       #herb: herb_bio
       #fish: fish_bio
       #total: total_bio
       coral_count: coral_count
       sandg: sandg
       hasD3: window.d3
-      hasConservationZone: hasConservationZone
       hasZoneWithGoal: hasZoneWithGoal
-      hasZoneWithNoGoal: hasZoneWithNoGoal
+      hasSanctuary: hasSanctuary
+      hasPartialTake: hasPartialTake
       
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
@@ -99,6 +117,19 @@ class EnvironmentTab extends ReportTab
     @drawCoralBars(coral_count, 0)
     @drawCoralBars(nogoal_coral_count, 3)
 
+
+
+  getHasSanctuaryOrPartialTake: (sketches, target) =>
+    zonesWithNoGoalCount = 0
+    for sketch in sketches
+      for attr in sketch.getAttributes()
+        if attr.exportid == "ZONE_TYPE"
+          console.log("attr value: ", attr.value)
+          if (attr.value == target)
+            zonesWithNoGoalCount+=1
+
+    return zonesWithNoGoalCount > 0
+
   getHasZoneWithGoal: (sketches) =>
     zonesWithGoalCount = 0
     for sketch in sketches
@@ -108,26 +139,6 @@ class EnvironmentTab extends ReportTab
             zonesWithGoalCount+=1
           
     return zonesWithGoalCount > 0
-
-  getHasZoneWithNoGoal: (sketches) =>
-    zonesWithNoGoalCount = 0
-    for sketch in sketches
-      for attr in sketch.getAttributes()
-        if attr.exportid == "ZONE_TYPE"
-          console.log("attr value: ", attr.value)
-          if (attr.value != "Sanctuary" and attr.value != "Marine Reserve - Partial Take")
-            zonesWithNoGoalCount+=1
-
-    return zonesWithNoGoalCount > 0
-
-  getHasConservationZone: (sketches) =>
-    hasConservationZone = false
-    for sketch in sketches
-      for attr in sketch.getAttributes()
-        if attr.exportid == "ZONE_TYPE"
-          hasConservationZone = (attr.value == "Sanctuary" or attr.value == "Marine Reserve - Partial Take" or attr.value == "Mooring Anchorage Zone" or attr.value == "Recreation Zone")
-          
-    return hasConservationZone
 
 
   drawCoralBars: (coral_counts, start_dex) =>

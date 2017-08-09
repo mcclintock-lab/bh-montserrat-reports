@@ -6,12 +6,7 @@
     <strong>{{size.PERC}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
   </p>
 </div>
-<div class="reportSection">
-  <h4>Distance from Port Little Bay</h4>
-  <p>
-    The farthest point in the {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}} is <strong>{{minDistKM}} km</strong> (over water) from the Port Little Bay.
-  </p>
-</div>
+
 <div class="reportSection">
   <h4>Fishing Value<a href="#" data-toggle-node="57e2c33beb275bba1ec6fd46" data-visible="false">show heatmap layer</a></h4>
   <p>
@@ -99,6 +94,8 @@
           {{/min_dim}}
       </table>
    </div>
+   {{/isCollection}}
+  <!--
   <div class="reportSection tableContainer">
       <h4>Connectivity</h4>
       <table>
@@ -122,8 +119,16 @@
         <em>Note:</em> The connectivity analytic has been developed for demonstration purposes, and does not account for the least cost path around land.
       </p>
    </div>
- {{/isCollection}}
+ 
 
+
+ <div class="reportSection">
+  <h4>Distance from Port Little Bay</h4>
+  <p>
+    The farthest point in the {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}} is <strong>{{minDistKM}} km</strong> (over water) from the Port Little Bay.
+  </p>
+</div>
+-->
 
 
 

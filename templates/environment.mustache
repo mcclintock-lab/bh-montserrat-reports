@@ -1,6 +1,6 @@
 {{#hasZoneWithGoal}}
  <div class="reportSection tableContainer">
-    <h4>Benthic Habitats {{#isCollection}}in Marine Reserves{{/isCollection}}<a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
+    <h4>Benthic Habitats {{#isCollection}}in All Marine Reserves{{/isCollection}}<a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
       <p>
         The following table describes the overlap between {{#isCollection}}the marine reserve sketches within your plan{{/isCollection}}{{^isCollection}}your sketch{{/isCollection}} and the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right. The MNI 2016 benthic habitat map was digitized by hand using a combination of in situ observations on scuba/free dive at survey sites (n = approx. 600) and drop camera deployments (n = 343) as part of the Waitt Institute Scientific Assessment. Preliminary context for mapping was gleaned from benthic maps depicted in Wild et. al 2007 and IRF 1993. These maps provided valuable insight into dominant benthic features and the interpretation of site observations. 
       </p>
@@ -10,11 +10,9 @@
               <th style="width:40px;">Meets 10% Goal?<sup>*</sup></th>
               <th style="width:40px;">Meets 20% Goal?<sup>*</sup></th>
               <th style="width:40px;">Meets 30% Goal?<sup>*</sup></th>
-
             <th style="width:225px;">Habitat</th>
             <th>Area (sq. km.)</th>
             <th>Area (% of Total)</th>
-
           </tr>
         </thead>
         <tbody>
@@ -74,34 +72,63 @@
           </tr>
         </tfoot>
       </table>
- </div>
+</div>
 {{/hasZoneWithGoal}}
-{{#hasZoneWithNoGoal}}
- <div class="reportSection tableContainer">
-    <h4>Benthic Habitats {{#isCollection}}in Non Marine Reserves{{/isCollection}}<a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
-      <p>
-        The following table describes the overlap of {{#isCollection}}the sketches in your plan that are <b>NOT</b> marine reserves with{{/isCollection}}{{^isCollection}}your sketch and{{/isCollection}} the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right. The MNI 2016 benthic habitat map was digitized by hand using a combination of in situ observations on scuba/free dive at survey sites (n = approx. 600) and drop camera deployments (n = 343) as part of the Waitt Institute Scientific Assessment. Preliminary context for mapping was gleaned from benthic maps depicted in Wild et. al 2007 and IRF 1993. These maps provided valuable insight into dominant benthic features and the interpretation of site observations. 
-      </p>
-      <table data-paging="10">
-        <thead>
-          <tr>
-            <th style="width:225px;">Habitat</th>
-            <th>Area (sq. km.)</th>
-            <th>Area (% of Total)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#nogoal_habitats}}
-          <tr>
-            <td>{{HAB_TYPE}}</td>
-            <td>{{AREA_SQKM}}</td>
-            <td>{{PERC}}</td>
-          </tr>
-          {{/nogoal_habitats}}
-        </tbody>
-      </table>
- </div>
-{{/hasZoneWithNoGoal}}
+
+{{#isCollection}}
+  {{#hasSanctuary}}
+   <div class="reportSection tableContainer">
+      <h4>Benthic Habitats {{#isCollection}}in Sanctuaries{{/isCollection}}<a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
+        <p>
+          The following table describes the overlap of {{#isCollection}}the sketches in your plan that are in no take marine reserves with{{/isCollection}}{{^isCollection}}your sketch and{{/isCollection}} the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right.
+        </p>
+        <table data-paging="10">
+          <thead>
+            <tr>
+              <th style="width:225px;">Habitat</th>
+              <th>Area (sq. km.)</th>
+              <th>Area (% of Total)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#sanc_habitats}}
+            <tr>
+              <td>{{HAB_TYPE}}</td>
+              <td>{{AREA_SQKM}}</td>
+              <td>{{PERC}}</td>
+            </tr>
+            {{/sanc_habitats}}
+          </tbody>
+        </table>
+   </div>
+  {{/hasSanctuary}}
+  {{#hasPartialTake}}
+   <div class="reportSection tableContainer">
+      <h4>Benthic Habitats {{#isCollection}}in Partial Take Reserves{{/isCollection}}<a href="#" data-toggle-node="58079dd5a1ec36f5595fb2b0" data-visible="false">show layer</a></h4>
+        <p>
+          The following table describes the overlap of {{#isCollection}}the sketches in your plan that are in partial take marine reserves with{{/isCollection}}{{^isCollection}}your sketch and{{/isCollection}} the benthic habitats of Montserrat, which you can view by checking the 'show layer' box at right.
+        </p>
+        <table data-paging="10">
+          <thead>
+            <tr>
+              <th style="width:225px;">Habitat</th>
+              <th>Area (sq. km.)</th>
+              <th>Area (% of Total)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#pt_habitats}}
+            <tr>
+              <td>{{HAB_TYPE}}</td>
+              <td>{{AREA_SQKM}}</td>
+              <td>{{PERC}}</td>
+            </tr>
+            {{/pt_habitats}}
+          </tbody>
+        </table>
+   </div>
+  {{/hasPartialTake}}
+{{/isCollection}}
 
 {{#hasZoneWithGoal}}
  <div class="reportSection tableContainer">
@@ -145,82 +172,38 @@
  </div>
 {{/hasZoneWithGoal}}
 
-{{#hasZoneWithNoGoal}}
- <div class="reportSection tableContainer">
-    <h4>IUCN Listed Coral {{#isCollection}}- Non Marine Reserves{{/isCollection}}<a href="#" data-toggle-node="58e671fc4af25d590ba4ccef" data-visible="false">show layer</a></h4>
-      <p>
-        Three IUCN listed corals have been observed within Montserrat waters. The following graphics show the number of the known observations that are found within the selected {{#isCollection}} <b>non marine reserve</b> sketches{{/isCollection}}{{^isCollection}}zone{{/isCollection}}.
-      </p>
-      {{#hasD3}}
-      <div>
-          <div class="viz" id="orb_a">
-            <div><i>Orbicella annularis </i></div>
-          </div>
-          <div class="viz" id="orb_f">
-            <div><i>Orbicella faveolata</i></div>
-          </div>
-          <div class="viz" id="acro">
-            <div><i>Acropora palmata</i></div>
-          </div>
-        </div>
-      {{/hasD3}}
-      {{^hasD3}}
-        <table data-paging="10">
-          <thead>
-            <tr>
-              <th style="width:40px;">Name<sup>*</sup></th>
-              <th style="width:225px;">Count</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#coral_count}}
-            <tr>
-              <td>{{NAME}}</td>
-              <td>{{COUNT}}</td>
-              <td>{{TOT}}</td>
-            </tr>
-            {{/coral_count}}
-          </tbody>
-        </table>
-      {{/hasD3}}
- </div>
-{{/hasZoneWithNoGoal}}
-
-
-
- <div class="reportSection">
-    <h4>Nursery Areas</h4>
-    <p>
-      These charts show the minimum, mean and maximum abundance measurements of nursery areas that were taken within your {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}}, in relation to the distribution of abundance within Montserrat waters.
-    <p>
-    {{#d3IsPresent}}
-      <div class="in-report-header">Nursery Areas</div>
-      <div id="sandg_viz" class="sandg_viz"></div>
-    {{/d3IsPresent}}
-    {{^d3IsPresent}}
-      <table data-paging="10">
-        <thead>
+<div class="reportSection">
+  <h4>Nursery Areas</h4>
+  <p>
+    These charts show the minimum, mean and maximum abundance measurements of nursery areas that were taken within your {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}}, in relation to the distribution of abundance within Montserrat waters.
+  <p>
+  {{#d3IsPresent}}
+    <div class="in-report-header">Nursery Areas</div>
+    <div id="sandg_viz" class="sandg_viz"></div>
+  {{/d3IsPresent}}
+  {{^d3IsPresent}}
+    <table data-paging="10">
+      <thead>
+        <tr>
+          <th style="width:250px;"></th>
+          <th>Mean</th>
+          <th>Minimum</th>
+          <th>Maximum</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#sandg}}
           <tr>
-            <th style="width:250px;"></th>
-            <th>Mean</th>
-            <th>Minimum</th>
-            <th>Maximum</th>
+            <td>Nursery Areas</td>
+            <td>{{sandg.SCORE}}</td>
+            <td>{{sandg.MIN}}</td>
+            <td>{{sandg.MAX}}</td>
           </tr>
-        </thead>
-        <tbody>
-          {{#sandg}}
-            <tr>
-              <td>Nursery Areas</td>
-              <td>{{sandg.SCORE}}</td>
-              <td>{{sandg.MIN}}</td>
-              <td>{{sandg.MAX}}</td>
-            </tr>
-          {{/sandg}}
-        </tbody>
-      </table>
-    {{/d3IsPresent}}
- </div>
+        {{/sandg}}
+      </tbody>
+    </table>
+  {{/d3IsPresent}}
+</div>
 
 
 <!--
