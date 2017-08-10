@@ -32,19 +32,27 @@ class OverviewTab extends ReportTab
       ddv = @recordSet('DiveAndFishingValue', 'DiveValue').toArray()[0]
     catch err
       console.log("error: ",err)
-    '''
+
+    hasSanctuaryData = false
     try
-      satest = @recordSet('SATestToolbox', 'ResultMsg')
-      console.log("-->> Spatial Analyst Test on 10.5: ", satest.data.value)
-    catch e
-      console.log("Spatial Analyst 10.5 failed", e)
-    
+      sanc_fv = @recordSet('DiveAndFishingValue', 'SanctuaryFishingValue').toArray()[0]
+      sanc_dv = @recordSet('DiveAndFishingValue', 'SanctuaryDiveValue').toArray()[0]
+      hasSanctuaryData = true
+    catch err
+      sanc_fv = []
+      sanc_dv = []
+      hasSanctuaryData = false
+
+    hasPartialTakeData = false
     try
-      satest = @recordSet('SATestToolbox10.4', 'ResultMsg')
-      console.log("-->> Spatial Analyst Test on 10.4: ", satest.data.value)
-    catch e
-      console.log("Spatial Analyst 10.4 failed", e)
-    '''
+      pt_fv = @recordSet('DiveAndFishingValue', 'PartialTakeFishingValue').toArray()[0]
+      pt_dv = @recordSet('DiveAndFishingValue', 'PartialTakeDiveValue').toArray()[0]
+      hasPartialTakeData = true
+    catch err
+      pt_fv = []
+      pt_dv = []
+      hasPartialTakeData = false
+
     if dfv
       if dfv.PERCENT < 0.01
         displaced_fishing_value = "< 0.01"
@@ -60,6 +68,34 @@ class OverviewTab extends ReportTab
         displaced_dive_value = parseFloat(ddv.PERCENT).toFixed(2)
     else
       displaced_dive_value = "unknown"
+
+    if hasSanctuaryData
+      if sanc_fv.PERCENT < 0.01
+        displaced_sanc_fishing_value = "< 0.01"
+      else
+        displaced_sanc_fishing_value = parseFloat(sanc_fv.PERCENT).toFixed(2)
+      if sanc_dv.PERCENT < 0.01
+        displaced_sanc_dive_value = "< 0.01"
+      else
+        displaced_sanc_dive_value = parseFloat(sanc_dv.PERCENT).toFixed(2)
+    else
+      displaced_sanc_fishing_value = "unknown"
+      displaced_sanc_dive_value = "unknown"
+
+    if hasPartialTakeData
+      if pt_fv.PERCENT < 0.01
+        displaced_pt_fishing_value = "< 0.01"
+      else
+        displaced_pt_fishing_value = parseFloat(pt_fv.PERCENT).toFixed(2)
+
+      if pt_dv.PERCENT < 0.01
+        displaced_pt_dive_value = "< 0.01"
+      else
+        displaced_pt_dive_value = parseFloat(pt_dv.PERCENT).toFixed(2)
+    else
+      displaced_pt_fishing_value = "unknown"
+      displaced_pt_dive_value = "unknown"
+
 
     minDistKM = @recordSet('Distance', 'Distance').toArray()[0]
     if minDistKM
@@ -102,7 +138,14 @@ class OverviewTab extends ReportTab
       
       displaced_fishing_value: displaced_fishing_value
       displaced_dive_value: displaced_dive_value
-    
+      displaced_sanc_fishing_value: displaced_sanc_fishing_value
+      displaced_sanc_dive_value: displaced_sanc_dive_value
+      displaced_pt_fishing_value: displaced_pt_fishing_value
+      displaced_pt_dive_value: displaced_pt_dive_value
+      hasPartialTakeData: hasPartialTakeData
+      hasSanctuaryData: hasSanctuaryData
+
+
       minDistKM: minDistKM
       isConservationZone: isConservationZone
       meetsMinWidthGoal: meetsMinWidthGoal

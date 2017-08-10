@@ -12,6 +12,20 @@
   <p>
     The {{#isCollection}}collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlaps with approximately <strong>{{displaced_fishing_value}}%</strong> of the total fishing value within Montserrat's waters, based on the user reported value of fishing grounds.
   </p>
+  {{#hasSanctuaryData}}
+    {{#isCollection}}
+      <p>
+        The <b>no take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_sanc_fishing_value}}%</strong> of the total fishing value within Montserrat's waters, based on the user reported value of fishing grounds.
+      </p>
+    {{/isCollection}}
+  {{/hasSanctuaryData}}
+  {{#hasPartialTakeData}}
+    {{#isCollection}}
+      <p>
+        The <b>partial take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_pt_fishing_value}}%</strong> of the total fishing value within Montserrat's waters, based on the user reported value of fishing grounds.
+      </p>
+    {{/isCollection}}
+  {{/hasPartialTakeData}}
 </div>
 
 <div class="reportSection">
@@ -19,6 +33,20 @@
   <p>
     The {{#isCollection}}collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlaps with approximately <strong>{{displaced_dive_value}}%</strong> of the total dive value within Montserrat's waters, based on the user reported value of dive sites.
   </p>
+  {{#hasSanctuaryData}}
+    {{#isCollection}}
+      <p>
+        The <b>no take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_sanc_dive_value}}%</strong> of the total dive value within Montserrat's waters, based on the user reported value of dive sites.
+      </p>
+    {{/isCollection}}
+  {{/hasSanctuaryData}}
+  {{#hasPartialTakeData}}
+    {{#isCollection}}
+      <p>
+        The <b>parital take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_pt_dive_value}}%</strong> of the total dive value within Montserrat's waters, based on the user reported value of dive sites.
+      </p>
+    {{/isCollection}}
+  {{/hasPartialTakeData}}
 </div>
 <div class="reportSection">
 <h4>Fish Pots <a href="#" data-toggle-node="58ed7cb54af25d590ba4fc3c" data-visible="false">show layer</a></h4>
