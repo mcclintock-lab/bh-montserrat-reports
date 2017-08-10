@@ -5,6 +5,44 @@
     The {{#isCollection}}collection{{/isCollection}}{{^isCollection}}zone{{/isCollection}} is <strong>{{size.SIZE_SQKM}} sq. km</strong>, which represents 
     <strong>{{size.PERC}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
   </p>
+  {{#isCollection}}
+    {{#hasProtectedAreas}}
+    <p>
+      The <b>partial take and no take marine reserves</b> in this collection are <strong>{{protectedAreaSize}} sq. km</strong>, which represents 
+      <strong>{{protectedAreaPerc}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
+    </p>
+    {{/hasProtectedAreas}}
+    {{#hasSanctuaries}}
+      <p>
+        The <b>no take marine reserves</b> in this collection are <strong>{{sanctuarySize}} sq. km</strong>, which represents 
+        <strong>{{sanctuaryPerc}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
+      </p>
+    {{/hasSanctuaries}}
+    {{#hasPartialTake}}
+      <p>
+        The <b>partial take marine reserves</b> in this collection are <strong>{{partialTakeSize}} sq. km</strong>, which represents 
+        <strong>{{partialTakePerc}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
+      </p>
+    {{/hasPartialTake}}
+    {{#hasUtilityZones}}
+      <p>
+        The <b>utility zones</b> in this collection are <strong>{{utilityZoneSize}} sq. km</strong>, which represents 
+        <strong>{{utilityZonePerc}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
+      </p>
+    {{/hasUtilityZones}}
+    {{#hasMultiUseZones}}
+      <p>
+        The <b>multi use zones</b> in this collection are <strong>{{multiUseZoneSize}} sq. km</strong>, which represents 
+        <strong>{{multiUseZonePerc}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
+      </p>
+    {{/hasMultiUseZones}}
+    {{#hasVolcanicExclusionZone}}
+      <p>
+        The <b>volcanic exclusion zones</b> in this collection are <strong>{{volcanicExclusionZoneSize}} sq. km</strong>, which represents 
+        <strong>{{volcanicExclusionZonePerc}}%</strong> of Montserrat's waters within 3 nautical miles of the coastline.
+      </p>
+    {{/hasVolcanicExclusionZone}}
+  {{/isCollection}}
 </div>
 
 <div class="reportSection">

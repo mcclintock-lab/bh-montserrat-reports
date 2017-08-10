@@ -22,8 +22,8 @@ class OverviewTab extends ReportTab
 
     # create random data for visualization
     size = @recordSet('SizeAndConnectivity', 'Size').toArray()[0]
-    
-    size.PERC = Number((parseFloat(size.SIZE_SQKM)/340.06)*100.0).toFixed(1)
+    total_size = 340.06
+    size.PERC = Number((parseFloat(size.SIZE_SQKM)/total_size)*100.0).toFixed(1)
     connectivity = @recordSet('SizeAndConnectivity', 'Connectivity').toArray()
     isCollection = @model.isCollection()
 
@@ -52,6 +52,67 @@ class OverviewTab extends ReportTab
       pt_fv = []
       pt_dv = []
       hasPartialTakeData = false
+
+    hasProtectedAreas = false
+    hasSanctuaries = false
+    hasPartialTake = false
+    hasUtilityZones = false
+    hasMultiUseZones = false
+    hasVolcanicExclusionZone = false
+
+    try
+      size_per_zone = @recordSet('SizeAndConnectivity', 'SizePerZone').toArray()
+      console.log("sizes per zone: ", size_per_zone)
+      protectedAreaSize = 0.0
+      protectedAreaPerc = 0.0
+
+      sanctuarySize = 0.0
+      sanctuaryPerc = 0.0
+
+      partialTakeSize = 0.0
+      partialTakePerc = 0.0
+
+      utilityZoneSize = 0.0
+      utilityZonePerc = 0.0
+
+      multiUseZoneSize = 0.0
+      multiUseZonePerc = 0.0
+
+      volcanicExclusionZoneSize = 0.0
+      volcanicExclusionZonePerc = 0.0
+
+      for spz in size_per_zone
+        curr_size = parseFloat(spz.SIZE_SQKM)
+        if spz.ZONE_TYPE == "Sanctuary"
+          sanctuarySize=curr_size
+          protectedAreaSize+=curr_size
+          hasProtectedAreas = true
+          hasSanctuaries = true
+        else if spz.ZONE_TYPE == "Marine Reserve - Partial Take"
+          partialTakeSize = curr_size
+          protectedAreaSize+=curr_size
+          hasProtectedAreas = true
+          hasPartialTake = true
+        else if spz.ZONE_TYPE == "Multiuse"
+          hasMultiUseZones = true
+          multiUseZoneSize = curr_size
+        else if spz.ZONE_TYPE == "Volcanic Exclusion Zone"
+          hasVolcanicExclusionZone = true
+          volcanicExclusionZoneSize = curr_size
+        else
+          hasUtilityZones = true
+          utilityZoneSize+=curr_size
+
+    catch e
+      console.log("e: ", e)
+      #its ok, just ignore the sizes per zone
+    
+    protectedAreaPerc = Number((protectedAreaSize/total_size)*100.0).toFixed(1)
+    sanctuaryPerc = Number((sanctuarySize/total_size)*100.0).toFixed(1)
+    partialTakePerc = Number((partialTakeSize/total_size)*100.0).toFixed(1)
+    utilityZonePerc = Number((utilityZoneSize/total_size)*100.0).toFixed(1)
+    multiUseZonePerc = Number((multiUseZoneSize/total_size)*100.0).toFixed(1)
+    volcanicExclusionZonePerc = Number((volcanicExclusionZoneSize/total_size)*100.0).toFixed(1)
 
     if dfv
       if dfv.PERCENT < 0.01
@@ -153,6 +214,30 @@ class OverviewTab extends ReportTab
 
       fishpot_count: fishpot_count
       fishpot_total: fishpot_total
+
+      hasProtectedAreas: hasProtectedAreas
+      protectedAreaSize: protectedAreaSize
+      protectedAreaPerc: protectedAreaPerc
+
+      hasSanctuaries: hasSanctuaries
+      sanctuarySize: sanctuarySize
+      sanctuaryPerc: sanctuaryPerc
+
+      hasPartialTake: hasPartialTake
+      partialTakeSize: partialTakeSize
+      partialTakePerc: partialTakePerc
+
+      hasUtilityZones: hasUtilityZones
+      utilityZoneSize: utilityZoneSize
+      utilityZonePerc: utilityZonePerc
+
+      hasMultiUseZones: hasMultiUseZones
+      multiUseZoneSize: multiUseZoneSize
+      multiUseZonePerc: multiUseZonePerc
+
+      hasVolcanicExclusionZone: hasVolcanicExclusionZone
+      volcanicExclusionZoneSize: volcanicExclusionZoneSize
+      volcanicExclusionZonePerc: volcanicExclusionZonePerc
 
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
