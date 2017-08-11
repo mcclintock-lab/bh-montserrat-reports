@@ -86,6 +86,29 @@
     {{/isCollection}}
   {{/hasPartialTakeData}}
 </div>
+
+<div class="reportSection">
+  <h4>Conservation Value<a href="#" data-toggle-node="5935e6cb1a6ce8a953b33d37" data-visible="false">show conservation layer</a></h4>
+  <p>
+    The {{#isCollection}}<b>no take and partial take marine reserves</b> in this collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlap{{^isCollection}}s{{/isCollection}} with approximately <strong>{{displaced_protected_area_conservation_value}}%</strong> of the  conservation value within Montserrat's waters. Conservation values are based on the optimal conservation zones selected using prioritizr systematic conservation prioritization package in R. Targets for protection are 30% of each habitat type and 50% of species richness. Species richness data is coral and fish richness as recorded on the Waitt Institute Scientific Assessment.<br/>
+    
+  </p>
+  {{#hasSanctuaryData}}
+    {{#isCollection}}
+      <p>
+        The <b>no take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_sanc_conservation_value}}%</strong> of the total dive value within Montserrat's waters, based on the prioritizr conservation value.
+      </p>
+    {{/isCollection}}
+  {{/hasSanctuaryData}}
+  {{#hasPartialTakeData}}
+    {{#isCollection}}
+      <p>
+        The <b>partial take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_pt_conservation_value}}%</strong> of the total conservation value within Montserrat's waters, based on the prioritizr conservation value.
+      </p>
+    {{/isCollection}}
+  {{/hasPartialTakeData}}
+</div>
+
 {{/showDiveAndFishing}}
 <div class="reportSection">
 <h4>Fish Pots <a href="#" data-toggle-node="58ed7cb54af25d590ba4fc3c" data-visible="false">show layer</a></h4>

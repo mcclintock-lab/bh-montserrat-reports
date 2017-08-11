@@ -30,6 +30,7 @@ class OverviewTab extends ReportTab
     try
       dfv = @recordSet('DiveAndFishingValue', 'FishingValue').toArray()[0]
       ddv = @recordSet('DiveAndFishingValue', 'DiveValue').toArray()[0]
+      dcv = @recordSet('DiveAndFishingValue', 'ConservationValue').toArray()[0]
     catch err
       console.log("error: ",err)
 
@@ -37,21 +38,27 @@ class OverviewTab extends ReportTab
     try
       sanc_fv = @recordSet('DiveAndFishingValue', 'SanctuaryFishingValue').toArray()[0]
       sanc_dv = @recordSet('DiveAndFishingValue', 'SanctuaryDiveValue').toArray()[0]
+      sanc_cv = @recordSet('DiveAndFishingValue', 'SanctuaryConservationValue').toArray()[0]
       hasSanctuaryData = true
     catch err
       sanc_fv = []
       sanc_dv = []
+      sanc_cv = []
       hasSanctuaryData = false
 
     hasPartialTakeData = false
     try
       pt_fv = @recordSet('DiveAndFishingValue', 'PartialTakeFishingValue').toArray()[0]
       pt_dv = @recordSet('DiveAndFishingValue', 'PartialTakeDiveValue').toArray()[0]
+      pt_cv = @recordSet('DiveAndFishingValue', 'PartialTakeConservationValue').toArray()[0]
+      console.log("------>>>>pt cv: ", pt_cv)
       hasPartialTakeData = true
     catch err
+      console.log("no pt.....")
       pt_fv = []
       pt_dv = []
       hasPartialTakeData = false
+
 
     hasProtectedAreas = false
     hasSanctuaries = false
@@ -121,7 +128,6 @@ class OverviewTab extends ReportTab
     multiUseZonePerc = Number((multiUseZoneSize/total_size)*100.0).toFixed(1)
     volcanicExclusionZonePerc = Number((volcanicExclusionZoneSize/total_size)*100.0).toFixed(1)
 
-
     if dfv
       if dfv.PERCENT < 0.01
         displaced_fishing_value = "< 0.01"
@@ -138,6 +144,14 @@ class OverviewTab extends ReportTab
     else
       displaced_dive_value = "unknown"
 
+    if dcv
+      if dcv.PERCENT < 0.01
+        displaced_conservation_value = "< 0.01"
+      else
+        displaced_conservation_value = parseFloat(dcv.PERCENT).toFixed(2)
+    else
+      displaced_conservation_value = "unknown"
+
     if hasSanctuaryData
       if sanc_fv.PERCENT < 0.01
         displaced_sanc_fishing_value = "< 0.01"
@@ -147,9 +161,14 @@ class OverviewTab extends ReportTab
         displaced_sanc_dive_value = "< 0.01"
       else
         displaced_sanc_dive_value = parseFloat(sanc_dv.PERCENT).toFixed(2)
+      if sanc_cv.PERCENT < 0.01
+        displaced_sanc_conservation_value = "< 0.01"
+      else
+        displaced_sanc_conservation_value = parseFloat(sanc_cv.PERCENT).toFixed(2)
     else
-      displaced_sanc_fishing_value = "unknown"
-      displaced_sanc_dive_value = "unknown"
+      displaced_sanc_fishing_value = "0.0"
+      displaced_sanc_dive_value = "0.0"
+      displaced_sanc_conservation_value = 0.0
 
     if hasPartialTakeData
       if pt_fv.PERCENT < 0.01
@@ -161,32 +180,42 @@ class OverviewTab extends ReportTab
         displaced_pt_dive_value = "< 0.01"
       else
         displaced_pt_dive_value = parseFloat(pt_dv.PERCENT).toFixed(2)
+
+      if pt_cv.PERCENT < 0.01
+        displaced_pt_conservation_value = "< 0.01"
+      else
+        displaced_pt_conservation_value = parseFloat(pt_cv.PERCENT).toFixed(2)
     else
-      displaced_pt_fishing_value = "unknown"
-      displaced_pt_dive_value = "unknown"
+      displaced_pt_fishing_value = "0"
+      displaced_pt_dive_value = "0"
+      displaced_pt_conservation_value = "0"
 
     if isCollection
-      sfv = parseFloat(sanc_fv.PERCENT)
-      pfv = parseFloat(pt_fv.PERCENT)
       fv = 0.0
-      if hasSanctuaries
-        fv+=sfv
-      if hasPartialTake
-        fv+=pfv
-      displaced_protected_area_fishing_value = (fv).toFixed(2)
-
-      sdv = parseFloat(sanc_dv.PERCENT)
-      pdv = parseFloat(pt_dv.PERCENT)
       dv = 0.0
+      cv = 0.0
       if hasSanctuaries
+        sfv = parseFloat(sanc_fv.PERCENT)
+        sdv = parseFloat(sanc_dv.PERCENT)
+        scv = parseFloat(sanc_cv.PERCENT)
+        fv+=sfv
         dv+=sdv
+        cv+=scv
       if hasPartialTake
+        pfv = parseFloat(pt_fv.PERCENT)
+        pdv = parseFloat(pt_dv.PERCENT)
+        pcv = parseFloat(pt_cv.PERCENT)
+        fv+=pfv
         dv+=pdv
+        cv+=pcv
 
+      displaced_protected_area_fishing_value = (fv).toFixed(2)
       displaced_protected_area_dive_value = (dv).toFixed(2)
+      displaced_protected_area_conservation_value = (cv).toFixed(2)
     else
       displaced_protected_area_fishing_value = displaced_fishing_value
       displaced_protected_area_dive_value = displaced_dive_value
+      displaced_protected_area_conservation_value = displaced_conservation_value
 
     minDistKM = @recordSet('Distance', 'Distance').toArray()[0]
     if minDistKM
@@ -230,11 +259,16 @@ class OverviewTab extends ReportTab
       
       displaced_protected_area_dive_value: displaced_protected_area_dive_value
       displaced_protected_area_fishing_value: displaced_protected_area_fishing_value
+      displaced_protected_area_conservation_value: displaced_protected_area_conservation_value
 
       displaced_sanc_fishing_value: displaced_sanc_fishing_value
       displaced_sanc_dive_value: displaced_sanc_dive_value
+      displaced_sanc_conservation_value: displaced_sanc_conservation_value
       displaced_pt_fishing_value: displaced_pt_fishing_value
       displaced_pt_dive_value: displaced_pt_dive_value
+      displaced_pt_conservation_value: displaced_pt_conservation_value
+
+
       hasPartialTakeData: hasPartialTakeData
       hasSanctuaryData: hasSanctuaryData
 
