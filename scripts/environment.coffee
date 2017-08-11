@@ -109,7 +109,7 @@ class EnvironmentTab extends ReportTab
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
 
-    @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper and Grouper", "Count" )
+    @renderHistoValues(sandg, all_sandg_vals, ".sandg_viz", "#66cdaa","Abundance of Juvenile Snapper, Grouper, and Parrotfish", "Count" )
     #@renderHistoValues(herb_bio, all_herb_vals, ".herb_viz", "#66cdaa","Herbivore Biomass (g/m^2)", "Biomass Per Transect")
     #@renderHistoValues(total_bio, all_total_values, ".total_viz", "#fa8072", "Total Biomass (g/m^2)", "Biomass Per Transect")
     #@renderHistoValues(fish_bio, all_fish_vals, ".fish_viz", "#6897bb", "Total Fish Count", "Number of Fish Species")
@@ -208,6 +208,7 @@ class EnvironmentTab extends ReportTab
   renderHistoValues: (biomass, histo_vals, graph, color, x_axis_label, legend_label) =>
     if window.d3
       mean = biomass.SCORE
+      console.log("mean: ", mean)
       bmin = biomass.MIN
       bmax = biomass.MAX
 
@@ -326,7 +327,7 @@ class EnvironmentTab extends ReportTab
 
 
       svg.selectAll(".scoreLine")
-          .data([Math.round(mean)])
+          .data([parseFloat(mean).toFixed(2)])
         .enter().append("line")
         .attr("class", "scoreLine")
         .attr("x1", (d) -> (x((d)) )+ 'px')
@@ -335,7 +336,7 @@ class EnvironmentTab extends ReportTab
         .attr("y2", (d) -> height + 'px')
 
       svg.selectAll(".score")
-          .data([Math.round(mean)])
+          .data([parseFloat(mean).toFixed(2)])
         .enter().append("text")
         .attr("class", "score")
         .attr("x", (d) -> (x((d)) - 6 )+ 'px')
@@ -343,7 +344,7 @@ class EnvironmentTab extends ReportTab
         .text("▼")
 
       svg.selectAll(".scoreText")
-          .data([Math.round(mean)])
+          .data([parseFloat(mean).toFixed(2)])
         .enter().append("text")
         .attr("class", "scoreText")
         .attr("x", (d) -> (x(d) - 22 )+ 'px')
@@ -352,7 +353,7 @@ class EnvironmentTab extends ReportTab
 
 
       svg.selectAll(".minScoreLine")
-          .data([Math.round(bmin)])
+          .data([parseFloat(bmin).toFixed(2)])
         .enter().append("line")
         .attr("class", "minScoreLine")
         .attr("x1", (d) -> (x((d)) )+ 'px')
@@ -361,7 +362,7 @@ class EnvironmentTab extends ReportTab
         .attr("y2", (d) -> height + 'px')
 
       svg.selectAll(".minScore")
-          .data([Math.round(bmin)])
+          .data([parseFloat(bmin).toFixed(2)])
         .enter().append("text")
         .attr("class", "minScore")
         .attr("x", (d) -> (x((d)) - 6 )+ 'px')
@@ -370,7 +371,7 @@ class EnvironmentTab extends ReportTab
 
 
       svg.selectAll(".minScoreText")
-          .data([Math.round(bmin)])
+          .data([parseFloat(bmin).toFixed(2)])
         .enter().append("text")
         .attr("class", "minScoreText")
         .attr("x", (d) -> (x(d) - 21 )+ 'px')
@@ -379,7 +380,7 @@ class EnvironmentTab extends ReportTab
 
 
       svg.selectAll(".maxScoreLine")
-          .data([Math.round(bmax)])
+          .data([parseFloat(bmax).toFixed(2)])
         .enter().append("line")
         .attr("class", "maxScoreLine")
         .attr("x1", (d) -> (x((d)) )+ 'px')
@@ -388,7 +389,7 @@ class EnvironmentTab extends ReportTab
         .attr("y2", (d) -> height + 'px')
 
       svg.selectAll(".maxScore")
-          .data([Math.round(bmax)])
+          .data([parseFloat(bmax).toFixed(2)])
         .enter().append("text")
         .attr("class", "maxScore")
         .attr("x", (d) -> (x((d)) - 6 )+ 'px')
@@ -396,7 +397,7 @@ class EnvironmentTab extends ReportTab
         .text("▼")
 
       svg.selectAll(".maxScoreText")
-          .data([Math.round(bmax)])
+          .data([parseFloat(bmax).toFixed(2)])
         .enter().append("text")
         .attr("class", "maxScoreText")
         .attr("x", (d) -> (x(d) - 30 )+ 'px')

@@ -107,12 +107,20 @@ class OverviewTab extends ReportTab
       console.log("e: ", e)
       #its ok, just ignore the sizes per zone
     
+    protectedAreaSize = parseFloat(protectedAreaSize).toFixed(2)
+    sanctuarySize = parseFloat(sanctuarySize).toFixed(2)
+    partialTakeSize = parseFloat(partialTakeSize).toFixed(2)
+    multiUseZoneSize = parseFloat(multiUseZoneSize).toFixed(2)
+    utilityZoneSize = parseFloat(utilityZoneSize).toFixed(2)
+    volcanicExclusionZoneSize = parseFloat(volcanicExclusionZoneSize).toFixed(2)
+
     protectedAreaPerc = Number((protectedAreaSize/total_size)*100.0).toFixed(1)
     sanctuaryPerc = Number((sanctuarySize/total_size)*100.0).toFixed(1)
     partialTakePerc = Number((partialTakeSize/total_size)*100.0).toFixed(1)
     utilityZonePerc = Number((utilityZoneSize/total_size)*100.0).toFixed(1)
     multiUseZonePerc = Number((multiUseZoneSize/total_size)*100.0).toFixed(1)
     volcanicExclusionZonePerc = Number((volcanicExclusionZoneSize/total_size)*100.0).toFixed(1)
+
 
     if dfv
       if dfv.PERCENT < 0.01
@@ -157,6 +165,28 @@ class OverviewTab extends ReportTab
       displaced_pt_fishing_value = "unknown"
       displaced_pt_dive_value = "unknown"
 
+    if isCollection
+      sfv = parseFloat(sanc_fv.PERCENT)
+      pfv = parseFloat(pt_fv.PERCENT)
+      fv = 0.0
+      if hasSanctuaries
+        fv+=sfv
+      if hasPartialTake
+        fv+=pfv
+      displaced_protected_area_fishing_value = (fv).toFixed(2)
+
+      sdv = parseFloat(sanc_dv.PERCENT)
+      pdv = parseFloat(pt_dv.PERCENT)
+      dv = 0.0
+      if hasSanctuaries
+        dv+=sdv
+      if hasPartialTake
+        dv+=pdv
+
+      displaced_protected_area_dive_value = (dv).toFixed(2)
+    else
+      displaced_protected_area_fishing_value = displaced_fishing_value
+      displaced_protected_area_dive_value = displaced_dive_value
 
     minDistKM = @recordSet('Distance', 'Distance').toArray()[0]
     if minDistKM
@@ -166,8 +196,8 @@ class OverviewTab extends ReportTab
 
     minWidth = @recordSet('MinDimensionToolbox', 'Dimensions').toArray()
     console.log("minwidth: ", minWidth)
-    if minWidth?.length > 0
 
+    if minWidth?.length > 0
       isConservationZone = true
       if isCollection
         @processMinDimension minWidth
@@ -186,6 +216,7 @@ class OverviewTab extends ReportTab
       fishpot_count = 0
       fishpot_total = 157
 
+    showDiveAndFishing = !isCollection || (isCollection && hasProtectedAreas)
     # setup context object with data and render the template from it
     context =
       sketch: @model.forTemplate()
@@ -197,8 +228,9 @@ class OverviewTab extends ReportTab
       size: size
       connectivity: connectivity
       
-      displaced_fishing_value: displaced_fishing_value
-      displaced_dive_value: displaced_dive_value
+      displaced_protected_area_dive_value: displaced_protected_area_dive_value
+      displaced_protected_area_fishing_value: displaced_protected_area_fishing_value
+
       displaced_sanc_fishing_value: displaced_sanc_fishing_value
       displaced_sanc_dive_value: displaced_sanc_dive_value
       displaced_pt_fishing_value: displaced_pt_fishing_value
@@ -239,6 +271,7 @@ class OverviewTab extends ReportTab
       volcanicExclusionZoneSize: volcanicExclusionZoneSize
       volcanicExclusionZonePerc: volcanicExclusionZonePerc
 
+      showDiveAndFishing: showDiveAndFishing
     @$el.html @template.render(context, templates)
     @enableLayerTogglers()
     @drawFishPotBars(fishpot_count, fishpot_total)

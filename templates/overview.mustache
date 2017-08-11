@@ -44,11 +44,11 @@
     {{/hasVolcanicExclusionZone}}
   {{/isCollection}}
 </div>
-
+{{#showDiveAndFishing}}
 <div class="reportSection">
   <h4>Fishing Value<a href="#" data-toggle-node="57e2c33beb275bba1ec6fd46" data-visible="false">show heatmap layer</a></h4>
   <p>
-    The {{#isCollection}}collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlaps with approximately <strong>{{displaced_fishing_value}}%</strong> of the total fishing value within Montserrat's waters, based on the user reported value of fishing grounds.
+    The {{#isCollection}}<b>no take and partial take marine reserves</b> in this collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlap{{^isCollection}}s{{/isCollection}} with approximately <strong>{{displaced_protected_area_fishing_value}}%</strong> of the total fishing value within Montserrat's waters, based on the user reported value of fishing grounds.
   </p>
   {{#hasSanctuaryData}}
     {{#isCollection}}
@@ -69,7 +69,7 @@
 <div class="reportSection">
   <h4>Dive Value<a href="#" data-toggle-node="57e2c302eb275bba1ec6fd3d" data-visible="false">show heatmap layer</a></h4>
   <p>
-    The {{#isCollection}}collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlaps with approximately <strong>{{displaced_dive_value}}%</strong> of the total dive value within Montserrat's waters, based on the user reported value of dive sites.
+    The {{#isCollection}}<b>no take and partial take marine reserves</b> in this collection{{/isCollection}}{{^isCollection}}sketch{{/isCollection}} overlap{{^isCollection}}s{{/isCollection}} with approximately <strong>{{displaced_protected_area_dive_value}}%</strong> of the total dive value within Montserrat's waters, based on the user reported value of dive sites.
   </p>
   {{#hasSanctuaryData}}
     {{#isCollection}}
@@ -81,11 +81,12 @@
   {{#hasPartialTakeData}}
     {{#isCollection}}
       <p>
-        The <b>parital take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_pt_dive_value}}%</strong> of the total dive value within Montserrat's waters, based on the user reported value of dive sites.
+        The <b>partial take marine reserves</b> in this collection overlap with approximately <strong>{{displaced_pt_dive_value}}%</strong> of the total dive value within Montserrat's waters, based on the user reported value of dive sites.
       </p>
     {{/isCollection}}
   {{/hasPartialTakeData}}
 </div>
+{{/showDiveAndFishing}}
 <div class="reportSection">
 <h4>Fish Pots <a href="#" data-toggle-node="58ed7cb54af25d590ba4fc3c" data-visible="false">show layer</a></h4>
   {{#hasD3}}
